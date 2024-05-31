@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>FLL Audience Display</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="static/audience.css">
+    </head>
+    <body>
+        <div id="scorebar">
+            <div id="matchNo">
+                Match {{ thisMatch }} of {{ totalMatches }}
+            </div>
+            <div id="red">
+                <div id="rednumber">
+                    {{ redTeam }}
+                </div>
+                <div id="redscore">
+                    {{ redScore }}
+                </div>
+                <div id="redbonus">
+                    {{ redBonus }}
+                </div>
+            </div>
+            <div id="timer">
+                <div id="matchStatus">
+                    {{ currentStatus }}
+                </div>
+                <div id="timebox">
+                    <div id="time">
+                        2:30
+                    </div>
+                    <!--<div id="data">Nope</div>-->
+                </div>
+                <audio id="buzzer">
+                    <source src="static/buzzer.mp3">
+                </audio>
+                <audio id="laser">
+                    <source src="static/laser.mp3">
+                </audio>
+            </div>
+            <img id="FLLlogo" src="static/FLL Sponsors.png">
+            <div id="blue">
+                <div id="bluenumber">
+                    {{ blueTeam }}
+                </div>
+                <div id="bluescore">
+                    {{ blueScore }}
+                </div>
+                <div id="bluebonus">
+                    {{ blueBonus }}
+                </div>
+            </div>
+        </div>
+        <script>
+            var matchStatus = document.getElementById("matchStatus")
+            function setAudienceStatus(thisText){
+                if(thisText === "Match-Under-Review"){
+                    console.log("yes, under review")
+                    matchStatus.style.display = "block";
+                    matchStatus.innerText = "Match Under Review"
+                } else if(thisText === "Match-Being-Scored"){
+                    console.log("yes, being scored");
+                    matchStatus.style.display = "block";
+                    matchStatus.innerText = "Match Being Scored"
+                } else if(thisText === "FMS-TEST"){
+                    console.log("yes, FMS TEST");
+                    matchStatus.style.display = "block";
+                    matchStatus.innerText = "FMS TEST"
+                } else {
+                    console.log("no, not under review")
+                    matchStatus.style.display = "none";
+                }
+            }
+            setAudienceStatus(matchStatus.innerText)
+            console.log(window.innerWidth)
+        </script>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            /*const source = new EventSource("/fta/audienceDisplaySet")
+            
+            source.onmessage = function (event) {
+                $("#data").text(e.data);
+                console.log(event)
+                console.log(event.data)
+            }*/
+            var intervalID = setInterval(update_values, 1000)
+            function update_values() {
+                $.getJSON('/test1',
+                function(data) {
+                    $('matchStatus').text(data.result)
+                    console.log(data)
+                    //document.getElementById('matchStatus').innerText = data
+                    setAudienceStatus(data)
+                })
+            }
+        </script>
+    </body>
+</html>

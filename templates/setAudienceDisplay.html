@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <body>
+        <form action="/audienceDisplaySet" method="post">
+            <select id="tickerMessage">
+                <option value="Match-Under-Review">Match Under Review</option>
+                <option value="FMS-TEST">FMS Test</option>
+                <option value="Match-Being-Scored">Match Being Scored</option>
+                <option value="All-Systems-Go">All Systems Go</option>
+                <option value="Break">Break (set return time)</option>
+            </select>
+            <!--<input type="button" onclick="startClock()">-->
+        </form>
+        <script>
+            /*var intervalID = setInterval(update_values, 1000)
+            function update_values() {
+                $.getJSON('/test1',
+                function(data) {
+                    $('tickerMessage').text(data.result)
+                    console.log(data)
+                })
+            }*/
+            //jQuery.post("/audience", message)
+            window.setInterval(function(){
+                jsSubmit();
+            }, 1000);
+            function jsSubmit(){
+                var message = document.getElementById("tickerMessage").value
+                $.get( "/getmethod/"+message );
+            }
+        </script>
+    </body>
+</html>

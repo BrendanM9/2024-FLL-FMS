@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Create a tournament</title>
+        <meta charset="UTF-8">
+        <link rel="icon" type="image/x-icon" href="static/favicon.png">
+        <link rel="stylesheet" href="static/fms.css">
+    </head>
+    <body>
+        <a id="home" href="/" class="homeButton">Return to FMS Hub</a>
+        <h1>Create a new FLL Tournament</h1>
+        <form action="/newTournamentConfirmation" method="POST">
+            <input id="location" type="text" name="location">
+            <label for="location">Location</label><br>
+            <input type="date" id="startDate">
+            <label for="startdate">Start Date</label><br>
+            <input type="date" id="endDate">
+            <label for="endDate">End Date</label><br><button id="sameDay" type="button" onclick="setSameDay()">Same Day?</button><br>
+            <input type="submit" value="Create Event">
+        </form>
+    </body>
+    <script>
+        var startdate1 = document.getElementById("starttdate");
+        var enddate1 = document.getElementById("endDate");
+        function setSameDay(){
+            enddate1.val = startdate1.val;
+        }
+    </script>
+</html>
