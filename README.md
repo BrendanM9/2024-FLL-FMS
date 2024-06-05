@@ -9,7 +9,7 @@ To download to your computer:
 4. Go to localhost:5000 or edit the final line of fmsRunner.py with an IP to host. This is where you can access the site.
 5. You are set up. Follow instructions on the website to proceed.
 
-The FTA credentials: \n
+The FTA credentials:
 Username: root
 Password: root
 
