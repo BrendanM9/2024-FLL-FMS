@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, Response, stream_with_context, redirect, url_for, jsonify
 from os import listdir
+import os
 import random
 import time
 import json
 import datetime
 app = Flask(__name__)
+thisClock = 0
 users = ["bMedina", "rWelbourn"]
 passwords = ["graciousProffesionalism", "fll"]
 @app.route("/")
@@ -113,12 +115,43 @@ def test1():
         #with open("currentStatus.txt", "w") as current:
         for line in current:
             thisStatus = line
-        return jsonify(thisStatus)
-@app.route('/getmethod/<jsdata>')
-def get_javascript_data(jsdata):
+        current.close()
+        event1 = open("currentMatch.txt")
+        for line1 in event1:
+            thisMatch = line1
+        SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+        json_url = os.path.join(SITE_ROOT, "static", "eventSchedule.json")
+        eventJson = json.load(open(json_url))
+        thisMatchData = eventJson["QT Bend"][int(thisMatch)+1]
+        if(thisStatus != "FMS-TEST"):
+            thisRed = thisMatchData["teamR"]
+            thisBlue = thisMatchData["teamB"]
+            thisTicker = thisMatchData["activity"]
+            thisType = thisMatchData["type"]
+        else:
+            thisRed = "Test 1"
+            thisBlue = "Test 2"
+            thisTicker = "FMS Field Test"
+            thisType = "FMS-TEST"
+        clock = open("clockStatus.txt")
+        for line2 in clock:
+            thisClock = line2
+        with open("clockStatus.txt", "w") as clockStatus1:
+            if(thisClock == 1):
+                clockStatus1.write(0)
+                clockStatus1.close()
+        return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker)
+@app.route('/getmethod/<jsdata>/<eventdata>/<clock>')
+def get_javascript_data(jsdata, eventdata, clock):
     with open("currentStatus.txt", "w") as status:
         status.write(jsdata)
         status.close()
+    with open("currentMatch.txt", "w") as currentEvent:
+        currentEvent.write(eventdata)
+        currentEvent.close()
+    with open("clockStatus.txt", "w") as clockStatus:
+        clockStatus.write(clock)
+        clockStatus.close()
     return jsonify(result=jsdata)
 if __name__=="__main__":
     Flask.run(app, debug=True, host='127.0.0.1', threaded=True)

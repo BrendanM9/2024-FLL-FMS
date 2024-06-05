@@ -1,0 +1,139 @@
+{
+    "QT Bend": [
+        {
+            "activity": "Volunteer Check-In",
+            "type": "Break",
+            "matchCode": 0,
+            "startTime": "8:00",
+            "endTime": "",
+            "teamR": "",
+            "teamB": ""
+        },
+        {
+            "activity": "Judges Meeting",
+            "type": "Break",
+            "matchCode": 0,
+            "startTime": "8:15",
+            "endTime": "",
+            "teamR": "",
+            "teamB": ""
+        },
+        {
+            "activity": "Coaches Meeting",
+            "type": "Break",
+            "matchCode": 0,
+            "startTime": "8:30",
+            "endTime": "",
+            "teamR": "",
+            "teamB": ""
+        },
+        {
+            "activity": "Opening Ceremony",
+            "type": "Break",
+            "matchCode": 0,
+            "startTime": "9:00",
+            "endTime": "",
+            "teamR": "",
+            "teamB": ""
+        },
+        {
+            "activity": "Practice Match 1",
+            "type": "Practice",
+            "matchCode": 0.1,
+            "startTime": "9:30",
+            "endTime": "9:35",
+            "teamR": "63351",
+            "teamB": "51587"
+        },
+        {
+            "activity": "Practice Match 2",
+            "type": "Practice",
+            "matchCode": 0.2,
+            "startTime": "9:37",
+            "endTime": "9:42",
+            "teamR": "51586",
+            "teamB": "61609"
+        },
+        {
+            "activity": "Practice Match 3",
+            "type": "Practice",
+            "matchCode": 0.3,
+            "startTime": "9:45",
+            "endTime": "9:50",
+            "teamR": "42767",
+            "teamB": "57610"
+        },
+        {
+            "activity": "Practice Match 4",
+            "type": "Practice",
+            "matchCode": 0.4,
+            "startTime": "9:52",
+            "endTime": "9:57",
+            "teamR": "64394",
+            "teamB": "60142"
+        },
+        {
+            "activity": "Practice Match 5",
+            "type": "Practice",
+            "matchCode": 0.5,
+            "startTime": "10:00",
+            "endTime": "10:05",
+            "teamR": "63525",
+            "teamB": "64439"
+        },
+        {
+            "activity": "Practice Match 6",
+            "type": "Practice",
+            "matchCode": 0.6,
+            "startTime": "10:07",
+            "endTime": "10:12",
+            "teamR": "64440",
+            "teamB": "64395"
+        },
+        {
+            "activity": "Practice Match 7",
+            "type": "Practice",
+            "matchCode": 0.7,
+            "startTime": "10:15",
+            "endTime": "10:20",
+            "teamR": "60142",
+            "teamB": "64393"
+        },
+        {
+            "activity": "Practice Match 8",
+            "type": "Practice",
+            "matchCode": 0.8,
+            "startTime": "10:22",
+            "endTime": "10:27",
+            "teamR": "51815",
+            "teamB": "64213"
+        },
+        {
+            "activity": "Practice Match 9",
+            "type": "Practice",
+            "matchCode": 0.9,
+            "startTime": "10:30",
+            "endTime": "10:35",
+            "teamR": "62796",
+            "teamB": "64184"
+        },
+        {
+            "activity": "Break 1",
+            "type": "Break",
+            "matchCode": 0,
+            "startTime": "10:45",
+            "endTime": "11:00",
+            "teamR": "",
+            "teamB": ""
+        },
+        {
+            "activity": "Match 1",
+            "type": "Competition",
+            "matchCode": 1.01,
+            "startTime": "11:00",
+            "endTime": "11:05",
+            "teamR": "64439",
+            "teamB": "64394"
+        }
+    ]
+}

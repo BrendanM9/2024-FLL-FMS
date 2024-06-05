@@ -76,6 +76,8 @@
         </script>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script>
+            var practice = 9;
+            var official = 15;
             /*const source = new EventSource("/fta/audienceDisplaySet")
             
             source.onmessage = function (event) {
@@ -83,6 +85,21 @@
                 console.log(event)
                 console.log(event.data)
             }*/
+            function startClock(){
+                var timeLeft = 150
+                var intervalID1 = setInterval(function(){
+                    timeLeft -= 1
+                    timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
+                    timeLeftSeconds = timeLeft % 60
+                    if(timeLeftSeconds < 10){
+                        timeLeftSeconds = "0"+timeLeftSeconds;
+                    }
+                    document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
+                    if(timeLeft <= 0){
+                        return "done";
+                    }
+                }, 1000)
+            }
             var intervalID = setInterval(update_values, 1000)
             function update_values() {
                 $.getJSON('/test1',
@@ -90,7 +107,24 @@
                     $('matchStatus').text(data.result)
                     console.log(data)
                     //document.getElementById('matchStatus').innerText = data
-                    setAudienceStatus(data)
+                    setAudienceStatus(data[0])
+                    document.getElementById("rednumber").innerHTML = data[1]
+                    document.getElementById("bluenumber").innerHTML = data[2]
+                    if(data[3] === "1"){
+                        startClock()
+                    }
+                    if(data[4] === "Practice"){
+                        document.getElementById("matchNo").innerHTML = data[5] + " of "+practice
+                        document.getElementById("matchNo").style.display = "block";
+                    } else if(data[4] === "Competition"){
+                        document.getElementById("matchNo").innerHTML = data[5] + " of "+official
+                        document.getElementById("matchNo").style.display = "block";
+                    } else if(data[4] === "FMS-TEST"){
+                        document.getElementById("matchNo").innerHTML = data[5]
+                        document.getElementById("matchNo").style.display = "block";
+                    } else {
+                        document.getElementById("matchNo").style.display = "none";
+                    }
                 })
             }
         </script>
