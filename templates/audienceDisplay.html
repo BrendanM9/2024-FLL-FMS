@@ -126,6 +126,10 @@
                         document.getElementById("matchNo").style.display = "none";
                     }
                 })
+                $.getJSON('/test2',
+                function(data){
+                    $("redscore").text(data.result)
+                })
             }
         </script>
     </body>

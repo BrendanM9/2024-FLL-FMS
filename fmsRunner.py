@@ -85,6 +85,9 @@ def setAudienceDisplay():
         return Response(getRandom(), content_type='text/event-stream')
     return redirect(url_for('127.0.0.1:5000/audience'))'''
     return render_template("setAudienceDisplay.html")
+@app.route("/fta-redScore", methods=["GET", "POST"])
+def scoreRed():
+    return render_template("redScorekeeper.html")
 @app.route("/fieldLogin")
 def ftaLogin():
     return render_template("fieldLogin.html")
@@ -136,11 +139,20 @@ def test1():
         clock = open("clockStatus.txt")
         for line2 in clock:
             thisClock = line2
-        with open("clockStatus.txt", "w") as clockStatus1:
+        '''with open("clockStatus.txt", "w") as clockStatus1:
             if(thisClock == 1):
                 clockStatus1.write(0)
-                clockStatus1.close()
+                clockStatus1.close()'''
         return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker)
+@app.route('/test2', methods=["GET"])
+def test2():
+        cinema1 = open("cinema.txt")
+        #with open("currentStatus.txt", "w") as current:
+        for line in cinema1:
+            thisCinema = line
+        cinema1.close()
+        return jsonify(thisCinema)
+
 @app.route('/getmethod/<jsdata>/<eventdata>/<clock>')
 def get_javascript_data(jsdata, eventdata, clock):
     with open("currentStatus.txt", "w") as status:
@@ -153,5 +165,11 @@ def get_javascript_data(jsdata, eventdata, clock):
         clockStatus.write(clock)
         clockStatus.close()
     return jsonify(result=jsdata)
+@app.route('/getmethodred/<cinema>')
+def get_javascript_data_red(cinema):
+    with open("cinema.txt", "w") as cinemaStatus:
+        cinemaStatus.write(cinema)
+        cinemaStatus.close()
+    return jsonify(result=cinema)
 if __name__=="__main__":
-    Flask.run(app, debug=True, host='127.0.0.1', threaded=True)
+    Flask.run(app, debug=True, host='0.0.0.0', threaded=True)

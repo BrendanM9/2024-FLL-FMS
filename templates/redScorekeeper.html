@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Red Score Stand</title>
+    </head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <body>
+        <form action="/redScorekeeper" method="post">
+            <select id="3d-cinema">
+                <option value="y">Yes</option>
+                <option value="n">No</option>
+            </select>
+            <label for="3d-cinema">3D Cinema</label>
+        </form>
+        <script>
+            window.setInterval(function(){
+                jsSubmit();
+            }, 1000);
+            function jsSubmit(){
+                var cinema = document.getElementById("3d-cinema").value
+                $.get( "/getmethodred/"+cinema);
+            }
+        </script>
+    </body>
+</html>
