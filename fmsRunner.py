@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request, Response, stream_with_context, redirect, url_for, jsonify
 from os import listdir
 import os
@@ -7,8 +8,8 @@ import json
 import datetime
 app = Flask(__name__)
 thisClock = 0
-users = ["bMedina", "rWelbourn"]
-passwords = ["graciousProffesionalism", "fll"]
+users = ["bMedina", "rWelbourn", "root"]
+passwords = ["graciousProffesionalism", "fll", "root"]
 @app.route("/")
 def fmsHome():
     return render_template("home.html")
@@ -146,12 +147,12 @@ def test1():
         return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker)
 @app.route('/test2', methods=["GET"])
 def test2():
-        cinema1 = open("cinema.txt")
+        cinema1 = open("redScore.txt")
         #with open("currentStatus.txt", "w") as current:
         for line in cinema1:
             thisCinema = line
         cinema1.close()
-        return jsonify(thisCinema)
+        return jsonify(thisCinema[0], thisCinema[1], thisCinema[2], thisCinema[3])
 
 @app.route('/getmethod/<jsdata>/<eventdata>/<clock>')
 def get_javascript_data(jsdata, eventdata, clock):
@@ -167,7 +168,7 @@ def get_javascript_data(jsdata, eventdata, clock):
     return jsonify(result=jsdata)
 @app.route('/getmethodred/<cinema>')
 def get_javascript_data_red(cinema):
-    with open("cinema.txt", "w") as cinemaStatus:
+    with open("redScore.txt", "w") as cinemaStatus:
         cinemaStatus.write(cinema)
         cinemaStatus.close()
     return jsonify(result=cinema)
