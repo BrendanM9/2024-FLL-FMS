@@ -153,9 +153,22 @@ def test2():
             thisCinema = line
         cinema1.close()
         return jsonify(thisCinema[0], thisCinema[1], thisCinema[2], thisCinema[3])
-
-@app.route('/getmethod/<jsdata>/<eventdata>/<clock>')
-def get_javascript_data(jsdata, eventdata, clock):
+@app.route('/test3', methods=["GET"])
+def test3():
+    red1 = open("redFinalStatus.txt")
+    for line in red1:
+        thisStatus = line
+    red1.close()
+    return jsonify(thisStatus[0], thisStatus[1])
+@app.route('/test5', methods=["GET"])
+def test5():
+    fullStatus = open("matchStatus.txt")
+    for line in fullStatus:
+        thisMatchStatus = line
+    fullStatus.close()
+    return jsonify(thisMatchStatus)
+@app.route('/getmethod/<jsdata>/<eventdata>/<clock>/<status1>')
+def get_javascript_data(jsdata, eventdata, clock, status1):
     with open("currentStatus.txt", "w") as status:
         status.write(jsdata)
         status.close()
@@ -165,12 +178,18 @@ def get_javascript_data(jsdata, eventdata, clock):
     with open("clockStatus.txt", "w") as clockStatus:
         clockStatus.write(clock)
         clockStatus.close()
+    with open("matchStatus.txt", "w") as matchStatus:
+        matchStatus.write(status1)
+        matchStatus.close()
     return jsonify(result=jsdata)
-@app.route('/getmethodred/<cinema>')
-def get_javascript_data_red(cinema):
+@app.route('/getmethodred/<cinema>/<final>')
+def get_javascript_data_red(cinema,final):
     with open("redScore.txt", "w") as cinemaStatus:
         cinemaStatus.write(cinema)
         cinemaStatus.close()
+    with open("redFinalStatus.txt", "w") as redFinal:
+        redFinal.write(final)
+        redFinal.close()
     return jsonify(result=cinema)
 if __name__=="__main__":
     Flask.run(app, debug=True, host='0.0.0.0', threaded=True)

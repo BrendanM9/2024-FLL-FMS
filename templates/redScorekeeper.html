@@ -7,19 +7,70 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <body>
         <form action="/redScorekeeper" method="post">
+            <button id="ready" onclick="redReady()" type="button">Ready for Match</button>
             <select id="3d-cinema">
-                <option value="y">Yes</option>
                 <option value="n">No</option>
+                <option value="y">Yes</option>
             </select>
-            <label for="3d-cinema">3D Cinema</label>
+            <label for="3d-cinema">3D Cinema</label><br>
+            <select id="theater-scene">
+                <option value="n">No</option>
+                <option value="b">Blue</option>
+                <option value="p">Pink</option>
+                <option value="o">Orange</option>
+            </select>
+            <label for="theater-scene">Theater Scene</label><br>
+            <select id="theater-scene-2">
+                <option value="n">No</option>
+                <option value="b">Blue</option>
+                <option value="p">Pink</option>
+                <option value="o">Orange</option>
+            </select>
+            <label for="theater-scene-2">2nd Theater Scene</label><br>
+            <select id="immersiveExperience">
+                <option value="n">No</option>
+                <option value="y">Yes</option>
+            </select>
+            <label for="immersiveExperience">Immersive Experience</label><br>
+            <button id="finalize" onclick="finals()" type="button">Finalize Scores</button>
         </form>
         <script>
+            var final = 0;
+            var readyStatus = 0;
+            var intervalID2 = setInterval(update_status, 1000)
+            function update_status(){
+                $.getJSON("/test5",
+                function(data){
+                    console.log(data)
+                    if(data === "1"){
+                        final = 0
+                        readyStatus = 0
+                    }
+                })
+            }
+        </script>
+        <script>
+            
             window.setInterval(function(){
                 jsSubmit();
             }, 1000);
+            function finals(){
+                if(final === 0){
+                    final = 1;
+                } else {
+                    final = 1
+                }
+            }
+            function redReady(){
+                readyStatus = 1
+            }
             function jsSubmit(){
                 var cinema = document.getElementById("3d-cinema").value
-                $.get( "/getmethodred/"+cinema);
+                var theaterscene = document.getElementById("theater-scene").value
+                var theaterscene2 = document.getElementById("theater-scene-2").value
+                var immersiveExperience = document.getElementById("immersiveExperience").value
+                $.get( "/getmethodred/"+cinema+theaterscene+theaterscene2+immersiveExperience+"/"+readyStatus+final);
+                //console.log("/getmethodred/"+cinema+theaterscene+theaterscene2+immersiveExperience+"/"+final)
             }
         </script>
     </body>

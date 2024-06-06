@@ -54,21 +54,31 @@
         <script>
             var matchStatus = document.getElementById("matchStatus")
             function setAudienceStatus(thisText){
-                if(thisText === "Match-Under-Review"){
-                    console.log("yes, under review")
-                    matchStatus.style.display = "block";
-                    matchStatus.innerText = "Match Under Review"
-                } else if(thisText === "Match-Being-Scored"){
-                    console.log("yes, being scored");
-                    matchStatus.style.display = "block";
-                    matchStatus.innerText = "Match Being Scored"
-                } else if(thisText === "FMS-TEST"){
-                    console.log("yes, FMS TEST");
-                    matchStatus.style.display = "block";
-                    matchStatus.innerText = "FMS TEST"
+                if(matchDone !== true){
+                    if(thisText === "Match-Under-Review"){
+                        console.log("yes, under review")
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Under Review"
+                    } else if(thisText === "Match-Being-Scored"){
+                        console.log("yes, being scored");
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Being Scored"
+                    } else if(thisText === "FMS-TEST"){
+                        console.log("yes, FMS TEST");
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "FMS TEST"
+                    } else {
+                        console.log("no, not under review")
+                        matchStatus.style.display = "none";
+                    }
                 } else {
-                    console.log("no, not under review")
-                    matchStatus.style.display = "none";
+                    if(thisText === "FMS-TEST"){
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Being Scored--FMS"
+                    } else {
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Being Scored"
+                    }
                 }
             }
             setAudienceStatus(matchStatus.innerText)
@@ -85,8 +95,10 @@
                 console.log(event)
                 console.log(event.data)
             }*/
+            matchDone = false
             function startClock(){
                 var timeLeft = 150
+                var timerSounded = false
                 var intervalID1 = setInterval(function(){
                     timeLeft -= 1
                     timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
@@ -95,10 +107,44 @@
                         timeLeftSeconds = "0"+timeLeftSeconds;
                     }
                     document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
+                    if (timeLeft === 30){
+                        document.getElementById("laser").play()
+                    }
                     if(timeLeft <= 0){
+                        document.getElementById("time").innerHTML = "0:00"
+                        matchDone = true
+                        if(timerSounded === false){
+                            document.getElementById("buzzer").play()
+                            timerSounded = true
+                        }
                         return "done";
                     }
                 }, 1000)
+            }
+            function calculateScore(thisData){
+                var score = 0
+                if(thisData[0] === "y"){
+                    score += 20
+                }
+                if(thisData[1] === "b"){
+                    score+=10
+                } else if(thisData[1] === "p"){
+                    score += 20
+                } else if(thisData[1] === "o"){
+                    score += 30
+                }
+                if(thisData[2] === "b"){
+                    score+=10
+                } else if(thisData[2] === "p"){
+                    score += 20
+                } else if(thisData[2] === "o"){
+                    score += 30
+                }
+                if(thisData[3] === "y"){
+                    score += 20
+                }
+                document.getElementById("redscore").innerHTML = score
+
             }
             var intervalID = setInterval(update_values, 1000)
             function update_values() {
@@ -129,6 +175,8 @@
                 $.getJSON('/test2',
                 function(data){
                     $("redscore").text(data.result)
+                    console.log(data)
+                    calculateScore(data)
                 })
             }
         </script>
