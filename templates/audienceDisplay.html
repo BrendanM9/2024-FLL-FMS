@@ -143,8 +143,169 @@
                 if(thisData[3] === "y"){
                     score += 20
                 }
+                if(thisData[4] === "y"){
+                    score += 10
+                }
+                if(thisData[5] === "y"){
+                    score += 20
+                }
+                if(thisData[6] === "y"){
+                    score += 30
+                }
+                if(thisData[7] === "y"){
+                    score += 10
+                }
+                if(thisData[8] === "y"){
+                    score += 10
+                }
+                if (thisData[9] === "y"){
+                    score += 20
+                }
+                if(thisData[10] === "d"){
+                    score += 10
+                }
+                if(thisData[10] === "m"){
+                    score += 20
+                    score += 10
+                }
+                if(thisData[10] === "l"){
+                    score += 30
+                    score += 20
+                    score += 10
+                }
+                if(thisData[11] === "y"){
+                    score += 10
+                }
+                if(thisData[12] === "y"){
+                    score += 10
+                }
+                score += parseInt(thisData[13])*10
+                if(thisData[14] === "y"){
+                    score += 10
+                } else if(thisData[14] === "g"){
+                    score += 20
+                } else if(thisData[14] === "b"){
+                    score += 30
+                }
+                if(thisData[15] === "y"){
+                    score += 10
+                }
+                if(thisData[16] === "y"){
+                    score += 20
+                }
+                if(thisData[17] === "y"){
+                    score += 10
+                }
+                if(thisData[18] === "y"){
+                    score += 20
+                }
+                score += parseInt(thisData[19])*5
+                score += parseInt(thisData[20])*5
+                score += parseInt(thisData[21])*10
+                if(thisData[22] === "6" || thisData[22] === "5"){
+                    score += 50
+                } else if(thisData[22] === "4"){
+                    score += 35
+                } else if(thisData[22] === "3"){
+                    score += 25
+                } else if(thisData[22] === "2"){
+                    score += 15
+                } else if(thisData[22] === "1"){
+                    score += 10
+                }
                 document.getElementById("redscore").innerHTML = score
-
+                score = 0
+                if(thisData[23] === "y"){
+                    score += 20
+                }
+                if(thisData[24] === "b"){
+                    score+=10
+                } else if(thisData[24] === "p"){
+                    score += 20
+                } else if(thisData[24] === "o"){
+                    score += 30
+                }
+                if(thisData[25] === "b"){
+                    score+=10
+                } else if(thisData[25] === "p"){
+                    score += 20
+                } else if(thisData[25] === "o"){
+                    score += 30
+                }
+                if(thisData[26] === "y"){
+                    score += 20
+                }
+                if(thisData[27] === "y"){
+                    score += 10
+                }
+                if(thisData[28] === "y"){
+                    score += 20
+                }
+                if(thisData[29] === "y"){
+                    score += 30
+                }
+                if(thisData[30] === "y"){
+                    score += 10
+                }
+                if(thisData[31] === "y"){
+                    score += 10
+                }
+                if (thisData[32] === "y"){
+                    score += 20
+                }
+                if(thisData[33] === "d"){
+                    score += 10
+                }
+                if(thisData[33] === "m"){
+                    score += 20
+                    score += 10
+                }
+                if(thisData[33] === "l"){
+                    score += 30
+                    score += 20
+                    score += 10
+                }
+                if(thisData[34] === "y"){
+                    score += 10
+                }
+                if(thisData[35] === "y"){
+                    score += 10
+                }
+                score += parseInt(thisData[36])*10
+                if(thisData[37] === "y"){
+                    score += 10
+                } else if(thisData[37] === "g"){
+                    score += 20
+                } else if(thisData[37] === "b"){
+                    score += 30
+                }
+                if(thisData[38] === "y"){
+                    score += 10
+                }
+                if(thisData[39] === "y"){
+                    score += 20
+                }
+                if(thisData[40] === "y"){
+                    score += 10
+                }
+                if(thisData[41] === "y"){
+                    score += 20
+                }
+                score += parseInt(thisData[42])*5
+                score += parseInt(thisData[43])*5
+                score += parseInt(thisData[44])*10
+                if(thisData[45] === "6" || thisData[22] === "5"){
+                    score += 50
+                } else if(thisData[45] === "4"){
+                    score += 35
+                } else if(thisData[45] === "3"){
+                    score += 25
+                } else if(thisData[45] === "2"){
+                    score += 15
+                } else if(thisData[45] === "1"){
+                    score += 10
+                }
+                document.getElementById("bluescore").innerHTML = score
             }
             var intervalID = setInterval(update_values, 1000)
             function update_values() {

@@ -89,6 +89,9 @@ def setAudienceDisplay():
 @app.route("/fta-redScore", methods=["GET", "POST"])
 def scoreRed():
     return render_template("redScorekeeper.html")
+@app.route("/fta-blueScore", methods=["GET", "POST"])
+def scoreBlue():
+    return render_template("blueScorekeeper.html")
 @app.route("/fieldLogin")
 def ftaLogin():
     return render_template("fieldLogin.html")
@@ -152,14 +155,22 @@ def test2():
         for line in cinema1:
             thisCinema = line
         cinema1.close()
-        return jsonify(thisCinema[0], thisCinema[1], thisCinema[2], thisCinema[3])
+        blue1 = open("blueScore.txt")
+        for line2 in blue1:
+            thisBlue = line2
+        blue1.close()
+        return jsonify(thisCinema[0], thisCinema[1], thisCinema[2], thisCinema[3], thisCinema[4], thisCinema[5], thisCinema[6], thisCinema[7], thisCinema[8], thisCinema[9], thisCinema[10], thisCinema[11], thisCinema[12], thisCinema[13], thisCinema[14], thisCinema[15], thisCinema[16], thisCinema[17], thisCinema[18], thisCinema[19], thisCinema[20], thisCinema[21], thisCinema[22], thisBlue[0], thisBlue[1], thisBlue[2], thisBlue[3], thisBlue[4], thisBlue[5], thisBlue[6], thisBlue[7], thisBlue[8], thisBlue[9], thisBlue[10], thisBlue[11], thisBlue[12], thisBlue[13], thisBlue[14], thisBlue[15], thisBlue[16], thisBlue[17], thisBlue[18], thisBlue[19], thisBlue[20], thisBlue[21], thisBlue[22])
 @app.route('/test3', methods=["GET"])
 def test3():
     red1 = open("redFinalStatus.txt")
     for line in red1:
         thisStatus = line
     red1.close()
-    return jsonify(thisStatus[0], thisStatus[1])
+    blue2 = open("blueFinal.txt")
+    for line3 in blue2:
+        thisStatus1 = line3
+    blue2.close()
+    return jsonify(thisStatus[0], thisStatus[1], thisStatus1[0], thisStatus1[1])
 @app.route('/test5', methods=["GET"])
 def test5():
     fullStatus = open("matchStatus.txt")
@@ -191,5 +202,14 @@ def get_javascript_data_red(cinema,final):
         redFinal.write(final)
         redFinal.close()
     return jsonify(result=cinema)
+@app.route('/getmethodblue/<datum>/<final>')
+def get_javascript_data_blue(datum,final):
+    with open("blueScore.txt", "w") as blueScore:
+        blueScore.write(datum)
+        blueScore.close()
+    with open("blueFinal.txt", "w") as blueFinal:
+        blueFinal.write(final)
+        blueFinal.close()
+    return jsonify(result=datum)
 if __name__=="__main__":
-    Flask.run(app, debug=True, host='0.0.0.0', threaded=True)
+    Flask.run(app, debug=True, host='0.0.0.0', threaded=True, port="8000")

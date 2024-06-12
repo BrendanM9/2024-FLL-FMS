@@ -2,11 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Red Score Stand</title>
+        <title>Blue Score Stand</title>
     </head>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <body>
-        <form action="/redScorekeeper" method="post">
+        <form action="/blueScorekeeper" method="post">
             <button id="ready" onclick="redReady()" type="button">Ready for Match</button><br>
             <select id="3d-cinema">
                 <option value="n">No</option>
@@ -218,7 +218,7 @@
                 var expertDelivery = document.getElementById("expert-delivery").value
                 var precisionTokens = document.getElementById("precision-tokens").value
                 var graciousProf = document.getElementById("gracious-prof").value
-                $.get( "/getmethodred/"+cinema+theaterscene+theaterscene2+immersiveExperience+masterpiece+masterpiece2+augmentedReality+musicConcertLights+musicConcertSound+hologramPerformer+rollingCamera+movieSet+movieSet2+soundMixer+lightShow+vrArtist+vrArtist2+craftCreator+craftCreator2+audienceDelivery+audienceDelivery2+expertDelivery+precisionTokens+graciousProf+"/"+readyStatus+final);
+                $.get( "/getmethodblue/"+cinema+theaterscene+theaterscene2+immersiveExperience+masterpiece+masterpiece2+augmentedReality+musicConcertLights+musicConcertSound+hologramPerformer+rollingCamera+movieSet+movieSet2+soundMixer+lightShow+vrArtist+vrArtist2+craftCreator+craftCreator2+audienceDelivery+audienceDelivery2+expertDelivery+precisionTokens+graciousProf+"/"+readyStatus+final);
                 //console.log("/getmethodred/"+cinema+theaterscene+theaterscene2+immersiveExperience+"/"+final)
             }
         </script>
