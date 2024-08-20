@@ -10,6 +10,9 @@ app = Flask(__name__)
 thisClock = 0
 users = ["bMedina", "rWelbourn", "root"]
 passwords = ["graciousProffesionalism", "fll", "root"]
+@app.route("/openCeremonies")
+def opening():
+    return render_template("openingTeleprompter.html")
 @app.route("/")
 def fmsHome():
     return render_template("home.html")

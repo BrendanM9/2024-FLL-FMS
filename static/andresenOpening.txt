@@ -1,0 +1,39 @@
+[A]Welcome to the Bend FLL QT Today. I’m Todd Andresen, Event Organizer. We are here to celebrate the achievements of the FIRST LEGO League Challenge teams that are present! To open this event, please stand for the national anthem.
+
+[A]Before we get started, let’s all take a moment to be mindful about safety. First, can I get everyone to point North? [Crowd interaction] This way is North. [point north]. I also want to draw attention to the emergency exits [point to exits and other venue features].
+
+[A]Fire extinguishers look like this [point to nearest fire extinguisher] and the first aid location is located [insert location + AED location]. 
+
+[A]Keeping us safe is everyone’s responsibility, so during this event please help us keep walkways and exits clear. If you see something unsafe, like a tripping hazard or a spill, please correct the issue immediately or ask Pit Admin for help.
+
+[A]In addition to physical safety, let’s also talk about emotional or psychological safety. Everyone here deserves to have a safe, nurturing, and fun experience. If someone or something is making you feel uncomfortable, please find a trusted adult and ask for help.
+
+[A]We are a community who looks out for each other, so if you see someone who might be struggling, please check in with them and see how you can help.
+
+[A]Thank you for helping us make this a safe and enjoyable event for all!
+
+[A]We have some special guests joining us today. Please welcome Patrick McBrien and Team 753, the High Desert Droids, who are hosting today’s event. If you have any questions whatsoever, ask someone in a tie-dye shirt or at the scoring table and they will be able to help you.
+
+[A][Season specific tagline]
+
+[A]In this year’s season, FIRST [Event title], presented by [headline sponsor], teams around the world explored [season theme]
+
+[A]This is an official FIRST LEGO League Dive tournament.
+
+[A]FIRST and the LEGO Group partnered to create our program in 1998. FIRST LEGO League started that year with 200 teams. This season, hundreds of thousands of kids in over 100 countries are participating around the world. Teams prepared for this tournament by working on the Robot Game and an Innovation Project, while developing their Core Values and teamwork.
+
+[A]To elaborate on the game more, we need to introduce a person who’s voice you will be hearing a lot today. It is my pleasure to introduce [game announcer]
+
+[G][Wait for game announcer.]
+
+[A]The Robot Game and Innovation Project are what we do. Our FIRST Core Values support how we do what we do. When things get tough out there today, you never want to forget about Gracious Profesionalism. It means competing like crazy against the clock but treating each other with respect. Keep that in mind if you get a little tired or something goes wrong. We all have more fun — teams, coaches, volunteers — when we treat each other with Gracious Professionalism.
+
+[A]Now, before we go any further, we should take a moment to thank those who make this event possible. So, it is my pleasure to introduce event coordinator and secondary announcer, Brendan Medina.
+
+[B][Wait for Brendan]
+
+[G][Wait for Game Announcer]
+
+[A]Good luck teams!
+
+[T]Let the games begin!

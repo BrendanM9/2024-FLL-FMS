@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Opening Ceremonies</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/teleprompter.css">
+    </head>
+    <body>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <!--<p hidden id="host">{{host}}</p>-->
+        <marquee direction="up" scrollamount="4" loop="1">
+            <span id="content">
+        </marquee>
+        <script>
+            var andresenScript
+            $.get("/static/andresenOpening.txt", function(data){
+                andresenScript = data
+                console.log(andresenScript)
+                checkHost()
+                //parseProgramPlan(data)
+            })
+            let prompter = document.querySelector('marquee');
+            let state = 'start';
+            document.addEventListener('keyup', controlPrompter);
+            prompter.addEventListener('click', controlPrompter);
+            function controlPrompter (event) {
+	            if (event.code && event.code !== 'Space') return;
+                state = state === 'start' ? 'stop' : 'start';
+                prompter[state]();
+            }
+            function checkHost(){
+                var host = document.getElementById("host");
+                console.log(andresenScript)
+                var rows = andresenScript.split('\n')
+                var scriptDiv = document.createElement("div")
+                for(var i = 0; i <= rows.length-1; i++){
+                    var thisP = document.createElement("p")
+                    thisP.innerHTML = rows[i]
+                    var thisBr = document.createElement("br")
+                    console.log(rows[i].substring(0, 2))
+                    if(rows[i].substring(0, 3) === "[A]"){
+                        thisP.innerHTML = rows[i].substring(3)
+                        thisP.style.color="green"
+                    } else if(rows[i].substring(0, 3) === "[B]"){
+                        thisP.innerHTML = rows[i].substring(3)
+                        thisP.style.color="blue"
+                    } else if(rows[i].substring(0, 3) === "[G]"){
+                        thisP.innerHTML = rows[i].substring(3)
+                        thisP.style.color="orange"
+                    }
+                    scriptDiv.appendChild(thisP)
+                    scriptDiv.appendChild(thisBr)
+                }
+                document.getElementById("content").appendChild(scriptDiv);
+                
+            }
+        </script>
+    </body>
+</html>
