@@ -10,10 +10,10 @@
         <form action="/audienceDisplaySet" method="post">
             <h3>Set Match Status</h3>
             <select id="tickerMessage">
+                <option value="All-Systems-Go">All Systems Go</option>
                 <option value="Match-Under-Review">Match Under Review</option>
                 <option value="FMS-TEST">FMS Test</option>
                 <option value="Match-Being-Scored">Match Being Scored</option>
-                <option value="All-Systems-Go">All Systems Go</option>
                 <option value="Break">Break (set return time)</option>
             </select><br>
             <h3>Current Match</h3>
@@ -24,14 +24,16 @@
             <h4>A match WILL NOT run on FMS Test Mode! This mode is exclusively for running systems checks in breaks and diagnosing issues.</h4>
             <div id="stationOneReady"></div>
             <p>Station One Status</p><br>
-            <!--<i class="fa-solid fa-check" style="color: #63E6BE;"></i>--><i class="fa-solid fa-xmark" style="color: #d30d0d;"></i><br>
+            <!--<i class="fa-solid fa-check" style="color: #63E6BE;"></i><i class="fa-solid fa-xmark" style="color: #d30d0d;"></i>-->
+            <div id="stationTwoReady"></div>
             <p>Station Two Status</p><br>
             <h5>Do NOT cue clock until both stations are ready!</h5>
             <button id="clock-cue" onclick="cue()" type="button">Cue Clock</button>
             <h3>Match Scoring</h3>
             <div id="stationOneSubmit"></div>
             <p>Station One Submitted</p><br>
-            <!--<i class="fa-solid fa-check" style="color: #63E6BE;"></i>--><i class="fa-solid fa-xmark" style="color: #d30d0d;"></i><br>
+            <!--<i class="fa-solid fa-check" style="color: #63E6BE;"></i><i class="fa-solid fa-xmark" style="color: #d30d0d;"></i>-->
+            <div id="stationTwoSubmit"></div>
             <p>Station Two Submitted</p><br>
             <h5>Do NOT submit match as final until both stations have successfully submitted!</h5>
             <button id="matchSubmit" onclick="matchSubmit1()" type="button">Submit Match As Final</button>
@@ -53,10 +55,21 @@
                     } else {
                         document.getElementById("stationOneReady").innerHTML = '<i class="fa-solid fa-xmark" style="color: #d30d0d;"></i>'
                     }
+                    if(data[3] === "1"){
+                        document.getElementById("stationTwoSubmit").innerHTML = '<i class="fa-solid fa-check" style="color: #63E6BE;"></i>'
+                    } else {
+                        document.getElementById("stationTwoSubmit").innerHTML = '<i class="fa-solid fa-xmark" style="color: #d30d0d;"></i>'
+                    }
+                    if(data[2] === "1"){
+                        document.getElementById("stationTwoReady").innerHTML = '<i class="fa-solid fa-check" style="color: #63E6BE;"></i>'
+                    } else {
+                        document.getElementById("stationTwoReady").innerHTML = '<i class="fa-solid fa-xmark" style="color: #d30d0d;"></i>'
+                    }
                 })
             }
         </script>
         <script>
+            var submitter = document.getElementById("matchSubmit")
             var thisEvent = 0
             var thisEventInput = document.getElementById("event")
             var thisClockStatus = 0
@@ -73,6 +86,9 @@
                 if(thisClockStatus===0){
                     thisClockStatus = 1
                 }
+            }
+            window.onload = function(){
+                submitter.addEventListener("click", function(){matchSubmit1()})
             }
             /*var intervalID = setInterval(update_values, 1000)
             function update_values() {

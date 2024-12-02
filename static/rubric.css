@@ -1,0 +1,44 @@
+/*body{
+    background-image: url("/static/rubric\ 2023.png");
+}*/
+.mission{
+    background-color: green;
+    color: white;
+}
+fieldset{
+    border: 4px ridge green;
+}
+button{
+    color: red;
+    background-color: white;
+    float:right;
+    margin-top:0px;
+    margin-bottom: 0px;
+}
+.note{
+    color:blue;
+}
+fieldset{
+    width: 45%;
+}
+h3{
+    padding-top: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+/*#right-column {
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    top:5%;
+}
+#left-column {
+    position: absolute;
+    left: 2.5%;
+    width: 100%;
+    top:5%;
+}*/

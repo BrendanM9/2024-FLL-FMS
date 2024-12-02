@@ -156,13 +156,14 @@ def test2():
         cinema1 = open("redScore.txt")
         #with open("currentStatus.txt", "w") as current:
         for line in cinema1:
-            thisCinema = line
+            thisRed = line
         cinema1.close()
         blue1 = open("blueScore.txt")
         for line2 in blue1:
             thisBlue = line2
         blue1.close()
-        return jsonify(thisCinema[0], thisCinema[1], thisCinema[2], thisCinema[3], thisCinema[4], thisCinema[5], thisCinema[6], thisCinema[7], thisCinema[8], thisCinema[9], thisCinema[10], thisCinema[11], thisCinema[12], thisCinema[13], thisCinema[14], thisCinema[15], thisCinema[16], thisCinema[17], thisCinema[18], thisCinema[19], thisCinema[20], thisCinema[21], thisCinema[22], thisBlue[0], thisBlue[1], thisBlue[2], thisBlue[3], thisBlue[4], thisBlue[5], thisBlue[6], thisBlue[7], thisBlue[8], thisBlue[9], thisBlue[10], thisBlue[11], thisBlue[12], thisBlue[13], thisBlue[14], thisBlue[15], thisBlue[16], thisBlue[17], thisBlue[18], thisBlue[19], thisBlue[20], thisBlue[21], thisBlue[22])
+        #return jsonify(thisCinema[0], thisCinema[1], thisCinema[2], thisCinema[3], thisCinema[4], thisCinema[5], thisCinema[6], thisCinema[7], thisCinema[8], thisCinema[9], thisCinema[10], thisCinema[11], thisCinema[12], thisCinema[13], thisCinema[14], thisCinema[15], thisCinema[16], thisCinema[17], thisCinema[18], thisCinema[19], thisCinema[20], thisCinema[21], thisCinema[22], thisBlue[0], thisBlue[1], thisBlue[2], thisBlue[3], thisBlue[4], thisBlue[5], thisBlue[6], thisBlue[7], thisBlue[8], thisBlue[9], thisBlue[10], thisBlue[11], thisBlue[12], thisBlue[13], thisBlue[14], thisBlue[15], thisBlue[16], thisBlue[17], thisBlue[18], thisBlue[19], thisBlue[20], thisBlue[21], thisBlue[22])
+        return jsonify(thisRed, thisBlue)
 @app.route('/test3', methods=["GET"])
 def test3():
     red1 = open("redFinalStatus.txt")
@@ -196,22 +197,22 @@ def get_javascript_data(jsdata, eventdata, clock, status1):
         matchStatus.write(status1)
         matchStatus.close()
     return jsonify(result=jsdata)
-@app.route('/getmethodred/<cinema>/<final>')
-def get_javascript_data_red(cinema,final):
+@app.route('/getmethodred/<ready>/<datum>/<final>/<gp>')
+def get_javascript_data_red(ready, datum, final, gp):
     with open("redScore.txt", "w") as cinemaStatus:
-        cinemaStatus.write(cinema)
+        cinemaStatus.write(datum)
         cinemaStatus.close()
     with open("redFinalStatus.txt", "w") as redFinal:
-        redFinal.write(final)
+        redFinal.write(ready+final)
         redFinal.close()
-    return jsonify(result=cinema)
-@app.route('/getmethodblue/<datum>/<final>')
-def get_javascript_data_blue(datum,final):
+    return jsonify(result=datum)
+@app.route('/getmethodblue/<ready>/<datum>/<final>/<gp>')
+def get_javascript_data_blue(ready, datum, final, gp):
     with open("blueScore.txt", "w") as blueScore:
         blueScore.write(datum)
         blueScore.close()
     with open("blueFinal.txt", "w") as blueFinal:
-        blueFinal.write(final)
+        blueFinal.write(ready+final)
         blueFinal.close()
     return jsonify(result=datum)
 if __name__=="__main__":

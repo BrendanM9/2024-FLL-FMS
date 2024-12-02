@@ -2,7 +2,7 @@
     "QT Bend": [
         {
             "activity": "Volunteer Check-In",
-            "type": "Break",
+            "type": "Info",
             "matchCode": 0,
             "startTime": "8:00",
             "endTime": "",
@@ -10,8 +10,8 @@
             "teamB": ""
         },
         {
-            "activity": "Judges Meeting",
-            "type": "Break",
+            "activity": "Judges' Meeting",
+            "type": "Info",
             "matchCode": 0,
             "startTime": "8:15",
             "endTime": "",
@@ -19,8 +19,8 @@
             "teamB": ""
         },
         {
-            "activity": "Coaches Meeting",
-            "type": "Break",
+            "activity": "Coaches' Meeting",
+            "type": "Info",
             "matchCode": 0,
             "startTime": "8:30",
             "endTime": "",
@@ -130,6 +130,15 @@
             "activity": "Match 1",
             "type": "Competition",
             "matchCode": 1.01,
+            "startTime": "11:00",
+            "endTime": "11:05",
+            "teamR": "64439",
+            "teamB": "64394"
+        },
+        {
+            "activity": "Match 2",
+            "type": "Competition",
+            "matchCode": 1.02,
             "startTime": "11:00",
             "endTime": "11:05",
             "teamR": "64439",
