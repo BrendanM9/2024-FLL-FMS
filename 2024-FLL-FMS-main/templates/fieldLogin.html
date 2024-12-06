@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FTA Login</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="static/fms.css">
+    </head>
+    <body>
+        <h1>Login with your FTA credentials:</h1>
+        <h3>Username and password are case sensitive.</h3>
+        <form action="/ftaHome" method="POST">
+            <input id="username" type="text" name="username" required>
+            <label for="username">FTA Username</label><br>
+            <input id="password" type="password" name="password" required>
+            <label for="password">FTA Password</label><br>
+            <input type="submit" value="Log In">
+        </form>
+    </body>
+</html>

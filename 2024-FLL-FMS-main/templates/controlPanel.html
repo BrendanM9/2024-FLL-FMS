@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>FMS MACRO CONTROL PANEL</title>
+    </head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <body>
+        <h1>RUN MACROS</h1>
+        <form action="/controlPanel" method="post">
+            <input id="toh" type="checkbox" value=1 hidden>
+            <button id="tohCheck" type="button" value=1>Top Of Hour</button>
+            <input id="test" type="checkbox" value=1 hidden>
+            <button id="testCheck" type="button" value=1>Run FMS TEST</button>
+            <input id="resync" type="checkbox" value=1 hidden>
+            <button id="resyncCheck" type="button" value=1>Run Field Load/ReSync</button>
+            <input type="checkbox" id="testClock" value=1>
+        </form>
+        <script>
+            var toh = document.getElementById("toh")
+            var tohChecked = document.getElementById("tohCheck")
+            var test = document.getElementById("test")
+            var testChecked = document.getElementById("testCheck")
+            var resync = document.getElementById("resync")
+            var resyncChecked = document.getElementById("resyncCheck")
+            var testClockRunning = document.getElementById("testClock")
+            var tohStatus = 0
+            var testStatus = 0
+            var resyncStatus = 0
+            function updateMacroStatus(item, itemCheck, itemStatus){
+                if(item.checked !== true){
+                    item.checked = true;
+                    itemCheck.style.backgroundColor = "yellow"
+                    itemStatus = parseInt(itemStatus) + parseInt(item.value);
+                    console.log(itemStatus)
+                } else if(item.checked === true){
+                    item.checked = false;
+                    itemCheck.style.backgroundColor = "white"
+                    itemStatus = itemStatus - parseInt(itemCheck.value);
+                    console.log(itemStatus)
+                }
+                return itemStatus
+            }
+            window.onload = function(){
+                tohChecked.addEventListener("click", function(){tohStatus = updateMacroStatus(toh, tohChecked, tohStatus)})
+                testChecked.addEventListener("click", function(){testStatus = updateMacroStatus(test, testChecked, testStatus)})
+                resyncChecked.addEventListener("click", function(){resyncStatus = updateMacroStatus(resync, resyncChecked, resyncStatus)})
+            }
+            window.setInterval(function(){
+                if(testClockRunning.checked === true){
+                    testStatus = 2;
+                }
+                updateMacros()
+                tohStatus = 0
+                testStatus = 0
+                resyncStatus = 0
+                
+                //tohChecked.checked = false;
+                //testChecked.checked = false;                
+                //resyncChecked.checked = false;
+            }, 1000)
+            function updateMacros(){
+                $.get( "/runmacro/"+tohStatus+"/"+testStatus+"/"+resyncStatus);
+                if(testStatus === 1){
+                    testClockRunning.click()
+                }
+            }
+        </script>
+    </body>
+</html>

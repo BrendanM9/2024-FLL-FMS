@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Red Score Stand</title>
+        <link rel="stylesheet" href="/static/rubric.css">
+    </head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <body>
+        <form action="/fta-redScore" method="post" id="red-form">
+            <input type="checkbox" id="ready" value="1" hidden>
+            <button id="ready-check" type="button" value="1">Ready for Match</button><br>
+            <div id="left-column">
+            <fieldset>
+                <h3>EQUIPMENT INSPECTION</h3>
+                <p>If your robot and all your equipment fit completely in one launch area and are under a height limit of 12 in. (305 mm) during the pre-match inspection:</p>
+                <button type="button" id="equipment-inspection-check" value="20">20</button>
+                <input type="checkbox" id="equipment-inspection" hidden value="20">
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 01</span> CORAL NURSERY</h3>
+                <p>If the coral tree is hanging on on the coral tree support:</p>
+                <input type="checkbox" id="coral-1" hidden value="20">
+                <button type="button" value="20" id="coral-1-check">20</button>
+                <p><b>Bonus:</b> and the bottom of the coral tree is in its holder:</p>
+                <input type="checkbox" id="coral-2" hidden value="10">
+                <button type="button" value="10" id="coral-2-check">10 ADDED</button>
+                <p>If the coral buds are flipped up:</p>
+                <input type="button" value="20" id="coral-3" hidden>
+                <button type="button" value="20" id="coral-3-check">20</button>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 02</span> SHARK</h3>
+                <p>If the shark is no longer touching the cave:</p>
+                <input type="checkbox" value="20" id="shark-1" hidden>
+                <button type="button" id="shark-1-check" value="20">20</button>
+                <p>If the shark is touching the mat and it is at least partly in the shark habitat:</p>
+                <input type="checkbox" id="shark-2" value="10" hidden>
+                <button type="button" id="shark-2-check" value="10">10</button>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 03</span> CORAL REEF</h3>
+                <p>If the coral reef is flipped up, not touching the mat:</p>
+                <input type="checkbox" id="reef-1" value="20" hidden>
+                <button type="button" id="reef-1-check" value="20">20</button>
+                <p>If a reef segment is standing upright, outside of home, and touching the mat: (5 EACH)</p>
+                <input type="checkbox" id="reef-2" value="5" hidden> 
+                <button type="button" id="reef-2-check" value="5">UPRIGHT (5)</button>
+                <input type="checkbox" id="reef-3" value="5" hidden>
+                <button type="button" id="reef-3-check" value="5">OUTSIDE OF HOME (5)</button>
+                <input type="checkbox" id="reef-4" value="5" hidden>
+                <button type="button" id="reef-4-check" value="5">TOUCHING THE MAT (5)</button>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 04</span> SCUBA DIVER</h3>
+                <p>If the scuba diver is no longer touching the coral nursery:</p>
+                <input type="checkbox" id="scuba-1" hidden value="20">
+                <button type="button" id="scuba-1-check" value="20">20</button>
+                <p>If the scuba diver is hanging on the coral reef support:</p>
+                <input type="checkbox" id="scuba-2" hidden value="20">
+                <button type="button" value="20" id="scuba-2-check">20</button>
+                <p class="note"><em>The “coral nursery” includes any part of the Mission 01 mission model.</em></p>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 05</span> ANGLER FISH</h3>
+                <p>If the angler fish is latched within the shipwreck:</p>
+                <input type="checkbox" value="30" id="angler" hidden>
+                <button type="button" value="30" id="angler-check">30</button>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 06</span> RAISE THE MAST</h3>
+                <p>If the shipwreck's mast is completely raised:</p>
+                <input type="checkbox" hidden id="shipwreck" value="30">
+                <button type="button" value="30" id="shipwreck-check">30</button>
+                <p class="note"><em>The shipwreck's mast is considered raised when the latch prevents it from returning to its starting position.</em></p>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 07</span> KRAKEN'S TREASURE</h3>
+                <p>If the treasure chest is completely outside the kraken's nest:</p>
+                <input type="checkbox" id="kraken" value="20" hidden>
+                <button type="button" id="kraken-check" value="20">20</button>
+            </fieldset>
+            <fieldset>
+                <h3><span class="mission">MISSION 08</span> ARTIFICIAL HABITAT</h3>
+                <p>If an artificial habitat stack segment is completely flat and upright: </p>
+                <input type="checkbox" id="habitat-1" value="40" hidden>
+                <button type="button" id="habitat-1-check" value="40">40</button>
+                <input type="checkbox" id="habitat-2" value="30" hidden>
+                <button type="button" id="habitat-2-check" value="30">30</button>
+                <input type="checkbox" id="habitat-3" value="20" hidden>
+                <button type="button" id="habitat-3-check" value="20">20</button>
+                <input type="checkbox" id="habitat-4" value="10" hidden>
+                <button type="button" id="habitat-4-check" value="10">10</button>
+                <p class="note"><em>There are four segments of the artificial habitat stack, each defined by its yellow base. A segment is considered upright when the crab is above its yellow base</em></p>
+            </fieldset>
+            </div>
+            <div id="right-column">
+                <fieldset>
+                    <h3><span class="mission">MISSION 09</span> UNEXPECTED ENCOUNTER</h3>
+                    <p>If the unknown creature is released:</p>
+                    <input type="checkbox" value="20" id="encounter-1" hidden>
+                    <button type="button" value="20" id="encounter-1-check">20</button>
+                    <p>If the unknown creature is at least partly in the cold seep:</p>
+                    <input type="checkbox" value="10" id="encounter-2" hidden>
+                    <button type="button" value="10" id="encounter-2-check">10</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">MISSION 10</span> SEND OVER THE SUBMERSIBLE</h3>
+                    <p>If your team's yellow flag is down:</p>
+                    <input type="checkbox" value="30" id="submersible-1" hidden>
+                    <button type="button" value="30" id="submersible-1-check">30</button>
+                    <p>If the submersible is clearly closer to the opposing field:</p>
+                    <input type="checkbox" value="10" id="submersible-2" hidden>
+                    <button type="button" value="10" id="submersible-2-check">10</button>
+                    <p class="note"><em>Teams may not block the opposing team. It is not possible to earn the bonus in remote competitions or if there is no opposing team.</em></p>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">MISSION 11</span> SONAR DISCOVERY</h3>
+                    <p>If one whale is revealed:</p>
+                    <input type="checkbox" value="20" id="sonar-1" hidden>
+                    <button type="button" value="20" id="sonar-1-check">20</button>
+                    <p><b>Bonus: </b>If both whales are revealed:</p>
+                    <input type="checkbox" value="10" id="sonar-2" hidden>
+                    <button type="button" value="10" id="sonar-2-check">10 ADDED</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">MISSION 12</span> FEED THE WHALE</h3>
+                    <p>Krill at least partly in the whale's mouth:</p>
+                    <input type="checkbox" id="whale-1" value="50" hidden>
+                    <button type="button" id="whale-1-check" value="50">50</button>
+                    <input type="checkbox" id="whale-2" value="40" hidden>
+                    <button type="button" id="whale-2-check" value="40">40</button>
+                    <input type="checkbox" id="whale-3" value="30" hidden>
+                    <button type="button" id="whale-3-check" value="30">30</button>
+                    <input type="checkbox" id="whale-4" value="20" hidden>
+                    <button type="button" id="whale-4-check" value="20">20</button>
+                    <input type="checkbox" id="whale-5" value="10" hidden>
+                    <button type="button" id="whale-5-check" value="10">10</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">MISSION 13</span> CHANGING SHIPPING LANES</h3>
+                    <p>If the ship is in the new shipping lane, touching the mat:</p>
+                    <input type="checkbox" id="shipping" value="20" hidden>
+                    <button type="button" id="shipping-check" value="20">20</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">MISSION 14</span> SAMPLE COLLECTION</h3>
+                    <p>If the water sample is completely outside the water sample area:</p>
+                    <input type="checkbox" id="sample-1" value="5" hidden>
+                    <button type="button" id="sample-1-check" value="5">5</button>
+                    <p>If the seabed sample is no longer touching the seabed:</p>
+                    <input type="checkbox" id="sample-2" value="10" hidden>
+                    <button type="button" id="sample-2-check" value="10">10</button>
+                    <p>If the plankton sample is no longer touching the kelp forest:</p>
+                    <input type="checkbox" id="sample-3" value="10" hidden>
+                    <button type="button" id="sample-3-check" value="10">10</button>
+                    <p>If a piece of the trident is no longer touching the shipwreck:</p>
+                    <input type="checkbox" id="sample-4" value="20" hidden>
+                    <button type="button" id="sample-4-check" value="20">20</button>
+                    <p><b>Bonus:</b> If both pieces are no longer touching the shipwreck:</p>
+                    <input type="checkbox" id="sample-5" value="10" hidden>
+                    <button type="button" id="sample-5-check" value="10">10 ADDED</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">MISSION 15</span> RESEARCH VESSEL</h3>
+                    <p>Number of samples, trident part(s), or treasure chest at least partly in the research vessel's cargo area</p>
+                    <input type="checkbox" id="vessel-1" value="30" hidden>
+                    <button type="button" id="vessel-1-check"  value="30">6</button>
+                    <input type="checkbox" id="vessel-2" value="25" hidden>
+                    <button type="button" id="vessel-2-check" value="25">5</button>
+                    <input type="checkbox" id="vessel-3" value="20" hidden>
+                    <button type="button" id="vessel-3-check" value="20">4</button>
+                    <input type="checkbox" id="vessel-4" value="15" hidden>
+                    <button type="button" id="vessel-4-check" value="15">3</button>
+                    <input type="checkbox" id="vessel-5" value="10" hidden>
+                    <button type="button" id="vessel-5-check" value="10">2</button>
+                    <input type="checkbox" id="vessel-6" value="5" hidden>
+                    <button type="button" id="vessel-6-check" value="5">1</button>
+                    <input type="checkbox" id="vessel-7" value="0" hidden>
+                    <button type="button" id="vessel-7-check" value="0">0</button>
+                    <p>If the port's latch is at least partly in the research vessel's loop:</p>
+                    <input type="checkbox" id="vessel-8" value="20" hidden>
+                    <button type="button" id="vessel-8-check" value="20">20</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">PT</span> PRECISION TOKENS</h3>
+                    <p>Number of precision tokens remaining:</p>
+                    <input type="checkbox" value="50" id="precis-1" hidden>
+                    <button type="button" id="precis-1-check" value="50">6</button>
+                    <input type="checkbox" value="50" id="precis-2" hidden>
+                    <button type="button" id="precis-2-check" value="50">5</button>
+                    <input type="checkbox" value="35" id="precis-3" hidden>
+                    <button type="button" id="precis-3-check" value="35">4</button>
+                    <input type="checkbox" value="25" id="precis-4" hidden>
+                    <button type="button" id="precis-4-check" value="25">3</button>
+                    <input type="checkbox" value="15" id="precis-5" hidden>
+                    <button type="button" id="precis-5-check" value="15">2</button>
+                    <input type="checkbox" value="10" id="precis-6" hidden>
+                    <button type="button" id="precis-6-check" value="10">1</button>
+                    <input type="checkbox" value="0" id="precis-7" hidden>
+                    <button type="button" id="precis-7-check" value="0">0</button>
+                </fieldset>
+                <fieldset>
+                    <h3><span class="mission">GP</span> GRACIOUS PROFESSIONALISM</h3>
+                    <p><em>Gracious Professionalism</em> displayed at the robot game table:</p>
+                    <input type="checkbox" id="gp-1" value="4" hidden>
+                    <button type="button" id="gp-1-check" value="4">Exceeds 4</button>
+                    <input type="checkbox" id="gp-2" value="3" hidden>
+                    <button type="button" id="gp-2-check" value="3">Accomplished 3</button>
+                    <input type="checkbox" id="gp-3" value="2" hidden>
+                    <button type="button" id="gp-3-check" value="2">Developing 2</button>
+                </fieldset>
+            </div>
+            <input type="checkbox" value="1" id="finalize" hidden>
+            <button id="finalize-check" value="1" type="button">Finalize Scores</button>
+        </form>
+        <script>
+            var score= 0;
+            var readyStatus = 0;
+            var graciousProf = 0;
+            var finalStatus = 0;
+            var ready = document.getElementById("ready")
+            var readyChecked = document.getElementById("ready-check")
+            var equipmentInspectionChecked = document.getElementById("equipment-inspection-check");
+            var equipmentInspection = document.getElementById("equipment-inspection");
+            var coral1Checked = document.getElementById("coral-1-check");
+            var coral1 = document.getElementById("coral-1");
+            var coral2Checked = document.getElementById("coral-2-check");
+            var coral2 = document.getElementById("coral-2");
+            var coral3Checked = document.getElementById("coral-3-check");
+            var coral3 = document.getElementById("coral-3");
+            var shark1Checked = document.getElementById("shark-1-check");
+            var shark1 = document.getElementById("shark-1")
+            var shark2Checked = document.getElementById("shark-2-check")
+            var shark2 = document.getElementById("shark-2")
+            var reef1Checked = document.getElementById("reef-1-check")
+            var reef1 = document.getElementById("reef-1")
+            var reef2Checked = document.getElementById("reef-2-check")
+            var reef2 = document.getElementById("reef-2")
+            var reef3Checked = document.getElementById("reef-3-check")
+            var reef3 = document.getElementById("reef-3")
+            var reef4Checked = document.getElementById("reef-4-check")
+            var reef4 = document.getElementById("reef-4")
+            var scuba1Checked = document.getElementById("scuba-1-check")
+            var scuba1 = document.getElementById("scuba-1")
+            var scuba2Checked = document.getElementById("scuba-2-check")
+            var scuba2 = document.getElementById("scuba-2")
+            var angler = document.getElementById("angler")
+            var anglerChecked = document.getElementById("angler-check")
+            var shipwreckChecked = document.getElementById("shipwreck-check")
+            var shipwreck = document.getElementById("shipwreck")
+            var krakenChecked = document.getElementById("kraken-check")
+            var kraken = document.getElementById("kraken")
+            var habitat1Checked = document.getElementById("habitat-1-check")
+            var habitat1 = document.getElementById("habitat-1")
+            var habitat2Checked = document.getElementById("habitat-2-check")
+            var habitat2 = document.getElementById("habitat-2")
+            var habitat3Checked = document.getElementById("habitat-3-check")
+            var habitat3 = document.getElementById("habitat-3")
+            var habitat4Checked = document.getElementById("habitat-4-check")
+            var habitat4 = document.getElementById("habitat-4")
+            var encounter1Checked = document.getElementById("encounter-1-check")
+            var encounter1 = document.getElementById("encounter-1")
+            var encounter2Checked = document.getElementById("encounter-2-check")
+            var encounter2 = document.getElementById("encounter-2")
+            var submersible1Checked = document.getElementById("submersible-1-check")
+            var submersible1 = document.getElementById("submersible-1")
+            var submersible2Checked = document.getElementById("submersible-2-check")
+            var submersible2 = document.getElementById("submersible-2")
+            var sonar1Checked = document.getElementById("sonar-1-check")
+            var sonar1 = document.getElementById("sonar-1")
+            var sonar2Checked = document.getElementById("sonar-2-check")
+            var sonar2 = document.getElementById("sonar-2")
+            var whale1Checked = document.getElementById("whale-1-check")
+            var whale1 = document.getElementById("whale-1")
+            var whale2Checked = document.getElementById("whale-2-check")
+            var whale2 = document.getElementById("whale-2")
+            var whale3Checked = document.getElementById("whale-3-check")
+            var whale3 = document.getElementById("whale-3")
+            var whale4Checked = document.getElementById("whale-4-check")
+            var whale4 = document.getElementById("whale-4")
+            var whale5Checked = document.getElementById("whale-5-check")
+            var whale5 = document.getElementById("whale-5")
+            var shipping = document.getElementById("shipping")
+            var shippingChecked = document.getElementById("shipping-check")
+            var sample1 = document.getElementById("sample-1")
+            var sample1Checked = document.getElementById("sample-1-check")
+            var sample2 = document.getElementById("sample-2")
+            var sample2Checked = document.getElementById("sample-2-check")
+            var sample3 = document.getElementById("sample-3")
+            var sample3Checked = document.getElementById("sample-3-check")
+            var sample4 = document.getElementById("sample-4")
+            var sample4Checked = document.getElementById("sample-4-check")
+            var sample5 = document.getElementById("sample-5")
+            var sample5Checked = document.getElementById("sample-5-check")
+            var vessel1 = document.getElementById("vessel-1")
+            var vessel1Checked = document.getElementById("vessel-1-check")
+            var vessel2 = document.getElementById("vessel-2")
+            var vessel2Checked = document.getElementById("vessel-2-check")
+            var vessel3 = document.getElementById("vessel-3")
+            var vessel3Checked = document.getElementById("vessel-3-check")
+            var vessel4 = document.getElementById("vessel-4")
+            var vessel4Checked = document.getElementById("vessel-4-check")
+            var vessel5 = document.getElementById("vessel-5")
+            var vessel5Checked = document.getElementById("vessel-5-check")
+            var vessel6 = document.getElementById("vessel-6")
+            var vessel6Checked = document.getElementById("vessel-6-check")
+            var vessel7 = document.getElementById("vessel-7")
+            var vessel7Checked = document.getElementById("vessel-7-check")
+            var vessel8 = document.getElementById("vessel-8")
+            var vessel8Checked = document.getElementById("vessel-8-check")
+            var precis1 = document.getElementById("precis-1")
+            var precis1Checked = document.getElementById("precis-1-check")
+            var precis2 = document.getElementById("precis-2")
+            var precis2Checked = document.getElementById("precis-2-check")
+            var precis3 = document.getElementById("precis-3")
+            var precis3Checked = document.getElementById("precis-3-check")
+            var precis4 = document.getElementById("precis-4")
+            var precis4Checked = document.getElementById("precis-4-check")
+            var precis5 = document.getElementById("precis-5")
+            var precis5Checked = document.getElementById("precis-5-check")
+            var precis6 = document.getElementById("precis-6")
+            var precis6Checked = document.getElementById("precis-6-check")
+            var precis7 = document.getElementById("precis-7")
+            var precis7Checked = document.getElementById("precis-7-check")
+            var gp1 = document.getElementById("gp-1")
+            var gp1Checked = document.getElementById("gp-1-check")
+            var gp2 = document.getElementById("gp-2")
+            var gp2Checked = document.getElementById("gp-2-check")
+            var gp3 = document.getElementById("gp-3")
+            var gp3Checked = document.getElementById("gp-3-check")
+            var finalize = document.getElementById("finalize")
+            var finalizeChecked = document.getElementById("finalize-check")
+            function changeReadyStatus(thisElement, thisElementTrigger){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    readyStatus = parseInt(readyStatus) + parseInt(thisElement.value);
+                    console.log(readyStatus)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    readyStatus = readyStatus - parseInt(thisElementTrigger.value);
+                    console.log(readyStatus)
+                }
+            }
+            function changeStatus(thisElement, thisElementTrigger){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    score = parseInt(score) + parseInt(thisElement.value);
+                    console.log(score)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    score = score - parseInt(thisElementTrigger.value);
+                    console.log(score)
+                }
+            }
+            function changeStatus4(thisElement, thisElementTrigger, otherElement1, otherElementTrigger1, otherElement2, otherElementTrigger2, otherElement3, otherElementTrigger3){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    if(otherElement1.checked !== false){
+                        otherElement1.checked = false;
+                        score = score - parseInt(otherElementTrigger1.value)
+                        otherElementTrigger1.style.backgroundColor = "white"
+                    }
+                    if(otherElement2.checked !== false){
+                        otherElement2.checked = false;
+                        score = score - parseInt(otherElementTrigger2.value)
+                        otherElementTrigger2.style.backgroundColor = "white"
+                    }
+                    if(otherElement3.checked !== false){
+                        otherElement3.checked = false;
+                        score = score - parseInt(otherElementTrigger3.value)
+                        otherElementTrigger3.style.backgroundColor = "white"
+                    }
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    score = parseInt(score) + parseInt(thisElement.value);
+                    console.log(score)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    score = score - parseInt(thisElementTrigger.value);
+                    console.log(score)
+                }
+            }
+            function changeStatus5(thisElement, thisElementTrigger, otherElement1, otherElementTrigger1, otherElement2, otherElementTrigger2, otherElement3, otherElementTrigger3, otherElement4, otherElementTrigger4){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    if(otherElement1.checked !== false){
+                        otherElement1.checked = false;
+                        score = score - parseInt(otherElementTrigger1.value)
+                        otherElementTrigger1.style.backgroundColor = "white"
+                    }
+                    if(otherElement2.checked !== false){
+                        otherElement2.checked = false;
+                        score = score - parseInt(otherElementTrigger2.value)
+                        otherElementTrigger2.style.backgroundColor = "white"
+                    }
+                    if(otherElement3.checked !== false){
+                        otherElement3.checked = false;
+                        score = score - parseInt(otherElementTrigger3.value)
+                        otherElementTrigger3.style.backgroundColor = "white"
+                    }
+                    if(otherElement4.checked !== false){
+                        otherElement4.checked = false;
+                        score = score - parseInt(otherElementTrigger4.value)
+                        otherElementTrigger4.style.backgroundColor = "white"
+                    }
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    score = parseInt(score) + parseInt(thisElement.value);
+                    console.log(score)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    score = score - parseInt(thisElementTrigger.value);
+                    console.log(score)
+                }
+            }
+            function changeStatus7(thisElement, thisElementTrigger, otherElement1, otherElementTrigger1, otherElement2, otherElementTrigger2, otherElement3, otherElementTrigger3, otherElement4, otherElementTrigger4, otherElement5, otherElementTrigger5, otherElement6, otherElementTrigger6){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    if(otherElement1.checked !== false){
+                        otherElement1.checked = false;
+                        score = score - parseInt(otherElementTrigger1.value)
+                        otherElementTrigger1.style.backgroundColor = "white"
+                    }
+                    if(otherElement2.checked !== false){
+                        otherElement2.checked = false;
+                        score = score - parseInt(otherElementTrigger2.value)
+                        otherElementTrigger2.style.backgroundColor = "white"
+                    }
+                    if(otherElement3.checked !== false){
+                        otherElement3.checked = false;
+                        score = score - parseInt(otherElementTrigger3.value)
+                        otherElementTrigger3.style.backgroundColor = "white"
+                    }
+                    if(otherElement4.checked !== false){
+                        otherElement4.checked = false;
+                        score = score - parseInt(otherElementTrigger4.value)
+                        otherElementTrigger4.style.backgroundColor = "white"
+                    }
+                    if(otherElement5.checked !== false){
+                        otherElement5.checked = false;
+                        score = score - parseInt(otherElementTrigger5.value)
+                        otherElementTrigger5.style.backgroundColor = "white"
+                    }
+                    if(otherElement6.checked !== false){
+                        otherElement6.checked = false;
+                        score = score - parseInt(otherElementTrigger6.value)
+                        otherElementTrigger6.style.backgroundColor = "white"
+                    }
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    score = parseInt(score) + parseInt(thisElement.value);
+                    console.log(score)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    score = score - parseInt(thisElementTrigger.value);
+                    console.log(score)
+                }
+            }
+            function changeGPStatus3(thisElement, thisElementTrigger, otherElement1, otherElementTrigger1, otherElement2, otherElementTrigger2){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    if(otherElement1.checked !== false){
+                        otherElement1.checked = false;
+                        graciousProf = graciousProf - parseInt(otherElementTrigger1.value)
+                        otherElementTrigger1.style.backgroundColor = "white"
+                    }
+                    if(otherElement2.checked !== false){
+                        otherElement2.checked = false;
+                        graciousProf = graciousProf - parseInt(otherElementTrigger2.value)
+                        otherElementTrigger2.style.backgroundColor = "white"
+                    }
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    graciousProf = parseInt(graciousProf) + parseInt(thisElement.value);
+                    console.log(graciousProf)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    graciousProf = graciousProf - parseInt(thisElementTrigger.value);
+                    console.log(graciousProf)
+                }
+            }
+            function changeFinalStatus(thisElement, thisElementTrigger){
+                if(thisElement.checked !== true){
+                    thisElement.checked = true;
+                    thisElementTrigger.style.backgroundColor = "yellow"
+                    finalStatus = parseInt(finalStatus) + parseInt(thisElement.value);
+                    console.log(finalStatus)
+                } else if(thisElement.checked === true){
+                    thisElement.checked = false;
+                    thisElementTrigger.style.backgroundColor = "white"
+                    finalStatus = finalStatus - parseInt(thisElementTrigger.value);
+                    console.log(finalStatus)
+                }
+            }
+            window.onload = function(){
+                readyChecked.addEventListener("click", function(){changeReadyStatus(ready, readyChecked)})
+                equipmentInspectionChecked.addEventListener("click", function(){changeStatus(equipmentInspection, equipmentInspectionChecked)})
+                coral1Checked.addEventListener("click", function(){changeStatus(coral1, coral1Checked)})
+                coral2Checked.addEventListener("click", function(){changeStatus(coral2, coral2Checked)})
+                coral3Checked.addEventListener("click", function(){changeStatus(coral3, coral3Checked)})
+                shark1Checked.addEventListener("click", function(){changeStatus(shark1, shark1Checked)})
+                shark2Checked.addEventListener("click", function(){changeStatus(shark2, shark2Checked)})
+                reef1Checked.addEventListener("click", function(){changeStatus(reef1, reef1Checked)})
+                reef2Checked.addEventListener("click", function(){changeStatus(reef2, reef2Checked)})
+                reef3Checked.addEventListener("click", function(){changeStatus(reef3, reef3Checked)})
+                reef4Checked.addEventListener("click", function(){changeStatus(reef4, reef4Checked)})
+                scuba1Checked.addEventListener("click", function(){changeStatus(scuba1, scuba1Checked)})
+                scuba2Checked.addEventListener("click", function(){changeStatus(scuba2, scuba2Checked)})
+                anglerChecked.addEventListener("click", function(){changeStatus(angler, anglerChecked)})
+                shipwreckChecked.addEventListener("click", function(){changeStatus(shipwreck, shipwreckChecked)})
+                krakenChecked.addEventListener("click", function(){changeStatus(kraken, krakenChecked)})
+                habitat1Checked.addEventListener("click", function(){changeStatus4(habitat1, habitat1Checked, habitat2, habitat2Checked, habitat3, habitat3Checked, habitat4, habitat4Checked)})
+                habitat2Checked.addEventListener("click", function(){changeStatus4(habitat2, habitat2Checked, habitat1, habitat1Checked, habitat3, habitat3Checked, habitat4, habitat4Checked)})
+                habitat3Checked.addEventListener("click", function(){changeStatus4(habitat3, habitat3Checked, habitat1, habitat1Checked, habitat2, habitat2Checked, habitat4, habitat4Checked)})
+                habitat4Checked.addEventListener("click", function(){changeStatus4(habitat4, habitat4Checked, habitat1, habitat1Checked, habitat2, habitat2Checked, habitat3, habitat3Checked)})
+                encounter1Checked.addEventListener("click", function(){changeStatus(encounter1, encounter1Checked)})
+                encounter2Checked.addEventListener("click", function(){changeStatus(encounter2, encounter2Checked)})
+                submersible1Checked.addEventListener("click", function(){changeStatus(submersible1, submersible1Checked)})
+                submersible2Checked.addEventListener("click", function(){changeStatus(submersible2, submersible2Checked)})
+                sonar1Checked.addEventListener("click", function(){changeStatus(sonar1, sonar1Checked)})
+                sonar2Checked.addEventListener("click", function(){changeStatus(sonar2, sonar2Checked)})
+                whale1Checked.addEventListener("click", function(){changeStatus5(whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale4, whale4Checked, whale5, whale5Checked)})
+                whale2Checked.addEventListener("click", function(){changeStatus5(whale2, whale2Checked, whale1, whale1Checked, whale3, whale3Checked, whale4, whale4Checked, whale5, whale5Checked)})
+                whale3Checked.addEventListener("click", function(){changeStatus5(whale3, whale3Checked, whale1, whale1Checked, whale2, whale2Checked, whale4, whale4Checked, whale5, whale5Checked)})
+                whale4Checked.addEventListener("click", function(){changeStatus5(whale4, whale4Checked, whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale5, whale5Checked)})
+                whale5Checked.addEventListener("click", function(){changeStatus5(whale5, whale5Checked, whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale4, whale4Checked)})
+                shippingChecked.addEventListener("click", function(){changeStatus(shipping, shippingChecked)})
+                sample1Checked.addEventListener("click", function(){changeStatus(sample1, sample1Checked)})
+                sample2Checked.addEventListener("click", function(){changeStatus(sample2, sample2Checked)})
+                sample3Checked.addEventListener("click", function(){changeStatus(sample3, sample3Checked)})
+                sample4Checked.addEventListener("click", function(){changeStatus(sample4, sample4Checked)})
+                sample5Checked.addEventListener("click", function(){changeStatus(sample5, sample5Checked)})
+                vessel1Checked.addEventListener("click", function(){changeStatus7(vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
+                vessel2Checked.addEventListener("click", function(){changeStatus7(vessel2, vessel2Checked, vessel1, vessel1Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
+                vessel3Checked.addEventListener("click", function(){changeStatus7(vessel3, vessel3Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
+                vessel4Checked.addEventListener("click", function(){changeStatus7(vessel4, vessel4Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
+                vessel5Checked.addEventListener("click", function(){changeStatus7(vessel5, vessel5Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
+                vessel6Checked.addEventListener("click", function(){changeStatus7(vessel6, vessel6Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel7, vessel7Checked)})
+                vessel7Checked.addEventListener("click", function(){changeStatus7(vessel7, vessel7Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked)})
+                vessel8Checked.addEventListener("click", function(){changeStatus(vessel8, vessel8Checked)})
+                precis1Checked.addEventListener("click", function(){changeStatus7(precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
+                precis2Checked.addEventListener("click", function(){changeStatus7(precis2, precis2Checked, precis1, precis1Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
+                precis3Checked.addEventListener("click", function(){changeStatus7(precis3, precis3Checked, precis1, precis1Checked, precis2, precis2Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
+                precis4Checked.addEventListener("click", function(){changeStatus7(precis4, precis4Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
+                precis5Checked.addEventListener("click", function(){changeStatus7(precis5, precis5Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis6, precis6Checked, precis7, precis7Checked)})
+                precis6Checked.addEventListener("click", function(){changeStatus7(precis6, precis6Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis7, precis7Checked)})
+                precis7Checked.addEventListener("click", function(){changeStatus7(precis7, precis7Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked)})
+                gp1Checked.addEventListener("click", function(){changeGPStatus3(gp1, gp1Checked, gp2, gp2Checked, gp3, gp3Checked)})
+                gp2Checked.addEventListener("click", function(){changeGPStatus3(gp2, gp2Checked, gp1, gp1Checked, gp3, gp3Checked)})
+                gp3Checked.addEventListener("click", function(){changeGPStatus3(gp3, gp3Checked, gp1, gp1Checked, gp2, gp2Checked)})
+                finalizeChecked.addEventListener("click", function(){changeFinalStatus(finalize, finalizeChecked)})
+            }
+            //var final = 0;
+            //var readyStatus = 0;
+            var intervalID2 = setInterval(update_status, 1000)
+            var form1 = document.getElementById("red-form")
+            function update_status(){
+                $.getJSON("/test5",
+                function(data){
+                    console.log(data)
+                    if(data === "1"){
+                        form1.submit()
+                        //final = 0
+                        //readyStatus = 0
+                    }
+                })
+            }
+        </script>
+        <script>
+            
+            window.setInterval(function(){
+                jsSubmit();
+            }, 1000);
+            function finals(){
+                if(final === 0){
+                    final = 1;
+                } else {
+                    final = 1
+                }
+            }
+            function redReady(){
+                //readyStatus = 1
+            }
+            function jsSubmit(){
+                $.get( "/getmethodred/"+readyStatus+"/"+score+"/"+finalStatus+"/"+graciousProf);
+                /*var cinema = document.getElementById("3d-cinema").value
+                var theaterscene = document.getElementById("theater-scene").value
+                var theaterscene2 = document.getElementById("theater-scene-2").value
+                var immersiveExperience = document.getElementById("immersiveExperience").value
+                var masterpiece = document.getElementById("masterpiece").value
+                var masterpiece2 = document.getElementById("masterpiece-2").value
+                var augmentedReality = document.getElementById("augmented-reality").value
+                var musicConcertLights = document.getElementById("music-concert-lights").value
+                var musicConcertSound = document.getElementById("music-concert-sound").value
+                var hologramPerformer = document.getElementById("hologram-performer").value
+                var rollingCamera = document.getElementById("rolling-camera").value
+                var movieSet = document.getElementById("movie-set").value
+                var movieSet2 = document.getElementById("movie-set-2").value
+                var soundMixer = document.getElementById("sound-mixer").value
+                var lightShow = document.getElementById("light-show").value
+                var vrArtist = document.getElementById("vr-artist").value
+                var vrArtist2 = document.getElementById("vr-artist-2").value
+                var craftCreator = document.getElementById("craft-creator").value
+                var craftCreator2 = document.getElementById("craft-creator-2").value
+                var audienceDelivery = document.getElementById("audience-delivery").value
+                var audienceDelivery2 = document.getElementById("audience-delivery-2").value
+                var expertDelivery = document.getElementById("expert-delivery").value
+                var precisionTokens = document.getElementById("precision-tokens").value
+                var graciousProf = document.getElementById("gracious-prof").value*/
+                //$.get( "/getmethodblue/"+cinema+theaterscene+theaterscene2+immersiveExperience+masterpiece+masterpiece2+augmentedReality+musicConcertLights+musicConcertSound+hologramPerformer+rollingCamera+movieSet+movieSet2+soundMixer+lightShow+vrArtist+vrArtist2+craftCreator+craftCreator2+audienceDelivery+audienceDelivery2+expertDelivery+precisionTokens+graciousProf+"/"+readyStatus+final);
+                //console.log("/getmethodred/"+cinema+theaterscene+theaterscene2+immersiveExperience+"/"+final)
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>FLL Audience Display</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="static/audience.css">
+    </head>
+    <body>
+        <div id="scorebar">
+            <div id="red-line"></div>
+            <div id="red">
+                <div id="rednumber">
+                    {{ redTeam }}
+                </div>
+                <div id="score-red">
+                    
+                </div>
+                <div id="redscore">
+                    {{ redScore }}
+                </div>
+                <div id="redbonus">
+                    {{ redBonus }}
+                    <!--<div id="red-precis">
+                        <div class="precis-token"></div><div id="red-precis-no">4/6</div>
+                        {{ redToken }}
+                    </div>-->
+                </div>
+                <div id="redbox"></div>
+                <div id="redbox2"></div>
+            </div>
+            
+            <div id="timer">
+                <div id="matchNo">
+                    Match {{ thisMatch }} of {{ totalMatches }}
+                </div>
+                <div id="matchStatus">
+                    {{ currentStatus }}
+                </div>
+                <div id="timebox">
+                    <div id="time">
+                        2:30
+                    </div>
+                    <!--<div id="data">Nope</div>-->
+                </div>
+                <audio id="buzzer">
+                    <source src="static/buzzer.mp3">
+                </audio>
+                <audio id="laser">
+                    <source src="static/laser.mp3">
+                </audio>
+            </div>
+            <img id="FLLlogo" src="static/FLL Sponsors.png">
+            <div id="Tournament-Info"><b>BEND QT TOURNAMENT</b></div>
+            <div id="blue">
+                <div id="blue-line"></div>
+                <div id="bluenumber">
+                    {{ blueTeam }}
+                </div>
+                <div id="score-blue"></div>
+                <div id="bluescore">
+                    {{ blueScore }}
+                </div>
+                <div id="bluebonus">
+                    {{ blueBonus }}
+                    <!--<div id="blue-precis">
+                        <div class="precis-token"></div><div id="blue-precis-no">1/6</div>
+                        {{ redToken }}
+                    </div>-->
+                </div>
+                <div id="bluebox"></div>
+                <div id="bluebox2"></div>
+            </div>
+        </div>
+        <script>
+            var matchStatus = document.getElementById("matchStatus")
+            function setAudienceStatus(thisText){
+                if(matchDone !== true){
+                    if(thisText === "Match-Under-Review"){
+                        console.log("yes, under review")
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Under Review"
+                    } else if(thisText === "Match-Being-Scored"){
+                        console.log("yes, being scored");
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Being Scored"
+                    } else if(thisText === "FMS TEST"){
+                        console.log("yes, FMS TEST");
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "FMS TEST"
+                    } else {
+                        console.log("no, not under review")
+                        matchStatus.style.display = "none";
+                    }
+                } else {
+                    if(thisText === "FMS TEST"){
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Being Scored--FMS"
+                    } else {
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "Match Being Scored"
+                    }
+                }
+            }
+            setAudienceStatus(matchStatus.innerText)
+            console.log(window.innerWidth)
+        </script>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            var practice = 9;
+            var official = 15;
+            /*const source = new EventSource("/fta/audienceDisplaySet")
+            
+            source.onmessage = function (event) {
+                $("#data").text(e.data);
+                console.log(event)
+                console.log(event.data)
+            }*/
+            var matchDone = false
+            function startClock(){
+                var timeLeft = 150
+                var timerSounded = false
+                var intervalID1 = setInterval(function(){
+                    timeLeft -= 1
+                    timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
+                    timeLeftSeconds = timeLeft % 60
+                    if(timeLeftSeconds < 10){
+                        timeLeftSeconds = "0"+timeLeftSeconds;
+                    }
+                    document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
+                    if (timeLeft === 30){
+                        document.getElementById("laser").play()
+                    }
+                    if(timeLeft <= 0){
+                        document.getElementById("time").innerHTML = "0:00"
+                        matchDone = true
+                        if(timerSounded === false){
+                            document.getElementById("buzzer").play()
+                            timerSounded = true
+                        }
+                        return "done";
+                    }
+                }, 1000)
+            }
+            function startClockFLL(){
+                var timeLeft = 150
+                var timerSounded = false
+                var intervalID1 = setInterval(function(){
+                    timeLeft -= 1
+                    timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
+                    timeLeftSeconds = timeLeft % 60
+                    if(timeLeftSeconds < 10){
+                        timeLeftSeconds = "0"+timeLeftSeconds;
+                    }
+                    document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
+                    if (timeLeft === 30){
+                        document.getElementById("laser").play()
+                    }
+                    if(timeLeft <= 0){
+                        document.getElementById("time").innerHTML = "0:00"
+                        matchDone = true
+                        if(timerSounded === false){
+                            document.getElementById("buzzer").play()
+                            timerSounded = true
+                        }
+                        return "done";
+                    }
+                }, 1000)
+            }
+            function calculateScore(thisData){
+                var score = thisData[0]
+                /*if(thisData[0] === "y"){
+                    score += 20
+                }
+                if(thisData[1] === "b"){
+                    score+=10
+                } else if(thisData[1] === "p"){
+                    score += 20
+                } else if(thisData[1] === "o"){
+                    score += 30
+                }
+                if(thisData[2] === "b"){
+                    score+=10
+                } else if(thisData[2] === "p"){
+                    score += 20
+                } else if(thisData[2] === "o"){
+                    score += 30
+                }
+                if(thisData[3] === "y"){
+                    score += 20
+                }
+                if(thisData[4] === "y"){
+                    score += 10
+                }
+                if(thisData[5] === "y"){
+                    score += 20
+                }
+                if(thisData[6] === "y"){
+                    score += 30
+                }
+                if(thisData[7] === "y"){
+                    score += 10
+                }
+                if(thisData[8] === "y"){
+                    score += 10
+                }
+                if (thisData[9] === "y"){
+                    score += 20
+                }
+                if(thisData[10] === "d"){
+                    score += 10
+                }
+                if(thisData[10] === "m"){
+                    score += 20
+                    score += 10
+                }
+                if(thisData[10] === "l"){
+                    score += 30
+                    score += 20
+                    score += 10
+                }
+                if(thisData[11] === "y"){
+                    score += 10
+                }
+                if(thisData[12] === "y"){
+                    score += 10
+                }
+                score += parseInt(thisData[13])*10
+                if(thisData[14] === "y"){
+                    score += 10
+                } else if(thisData[14] === "g"){
+                    score += 20
+                } else if(thisData[14] === "b"){
+                    score += 30
+                }
+                if(thisData[15] === "y"){
+                    score += 10
+                }
+                if(thisData[16] === "y"){
+                    score += 20
+                }
+                if(thisData[17] === "y"){
+                    score += 10
+                }
+                if(thisData[18] === "y"){
+                    score += 20
+                }
+                score += parseInt(thisData[19])*5
+                score += parseInt(thisData[20])*5
+                score += parseInt(thisData[21])*10
+                if(thisData[22] === "6" || thisData[22] === "5"){
+                    score += 50
+                } else if(thisData[22] === "4"){
+                    score += 35
+                } else if(thisData[22] === "3"){
+                    score += 25
+                } else if(thisData[22] === "2"){
+                    score += 15
+                } else if(thisData[22] === "1"){
+                    score += 10
+                }*/
+                document.getElementById("redscore").innerText = score
+                score = thisData[1]
+                /*if(thisData[23] === "y"){
+                    score += 20
+                }
+                if(thisData[24] === "b"){
+                    score+=10
+                } else if(thisData[24] === "p"){
+                    score += 20
+                } else if(thisData[24] === "o"){
+                    score += 30
+                }
+                if(thisData[25] === "b"){
+                    score+=10
+                } else if(thisData[25] === "p"){
+                    score += 20
+                } else if(thisData[25] === "o"){
+                    score += 30
+                }
+                if(thisData[26] === "y"){
+                    score += 20
+                }
+                if(thisData[27] === "y"){
+                    score += 10
+                }
+                if(thisData[28] === "y"){
+                    score += 20
+                }
+                if(thisData[29] === "y"){
+                    score += 30
+                }
+                if(thisData[30] === "y"){
+                    score += 10
+                }
+                if(thisData[31] === "y"){
+                    score += 10
+                }
+                if (thisData[32] === "y"){
+                    score += 20
+                }
+                if(thisData[33] === "d"){
+                    score += 10
+                }
+                if(thisData[33] === "m"){
+                    score += 20
+                    score += 10
+                }
+                if(thisData[33] === "l"){
+                    score += 30
+                    score += 20
+                    score += 10
+                }
+                if(thisData[34] === "y"){
+                    score += 10
+                }
+                if(thisData[35] === "y"){
+                    score += 10
+                }
+                score += parseInt(thisData[36])*10
+                if(thisData[37] === "y"){
+                    score += 10
+                } else if(thisData[37] === "g"){
+                    score += 20
+                } else if(thisData[37] === "b"){
+                    score += 30
+                }
+                if(thisData[38] === "y"){
+                    score += 10
+                }
+                if(thisData[39] === "y"){
+                    score += 20
+                }
+                if(thisData[40] === "y"){
+                    score += 10
+                }
+                if(thisData[41] === "y"){
+                    score += 20
+                }
+                score += parseInt(thisData[42])*5
+                score += parseInt(thisData[43])*5
+                score += parseInt(thisData[44])*10
+                if(thisData[45] === "6" || thisData[22] === "5"){
+                    score += 50
+                } else if(thisData[45] === "4"){
+                    score += 35
+                } else if(thisData[45] === "3"){
+                    score += 25
+                } else if(thisData[45] === "2"){
+                    score += 15
+                } else if(thisData[45] === "1"){
+                    score += 10
+                }*/
+                document.getElementById("bluescore").innerHTML = score
+            }
+            function presentScore(r, b){
+                var winner;
+                if(r > b){
+                    winner = 1
+                } else if (b > r){
+                    winner = 2
+                }
+                console.log(winner)
+            }
+            var redFinalScore;
+            var blueFinalScore;
+            var intervalID = setInterval(update_values, 1000)
+            function update_values() {
+                $.getJSON('/test1',
+                function(data) {
+                    $('matchStatus').text(data.result)
+                    console.log(data)
+                    //document.getElementById('matchStatus').innerText = data
+                    setAudienceStatus(data[0])
+                    redFinalScore = data[1]
+                    blueFinalScore = data[2]
+                    document.getElementById("rednumber").innerHTML = data[1]
+                    document.getElementById("bluenumber").innerHTML = data[2]
+                    macros = data[6]
+                    if(data[7] === "1"){
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "FMS TEST"
+                        startClockFLL();
+                    }
+                    if(data[7] === "2"){
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "FMS TEST"
+                    }
+                    if(data[3] === "1"){
+                        startClock()
+                    }
+                    if(data[7] === "1" || data[7] === "2"){
+                        document.getElementById("matchNo").innerHTML = data[5]
+                        document.getElementById("matchNo").style.display = "block";
+                    } else if(data[4] === "Competition"){
+                        document.getElementById("matchNo").innerHTML = data[5] + " of "+official
+                        document.getElementById("matchNo").style.display = "block";
+                    } else if(data[4] === "Practice"){
+                        document.getElementById("matchNo").innerHTML = data[5] + " of "+practice
+                        document.getElementById("matchNo").style.display = "block";
+                    } else if(data[4] === "Break"){
+                        document.getElementById("matchNo").innerHTML = data[5]
+                        document.getElementById("matchNo").style.display = "block";
+                    } else {
+                        document.getElementById("matchNo").style.display = "none";
+                    }
+                })
+                $.getJSON('/test2',
+                function(data){
+                    $("redscore").text(data.result)
+                    console.log(data)
+                    calculateScore(data)
+                })
+                $.getJSON('/test5',
+                function(data){
+                    console.log(data)
+                    if(parseInt(data)===1){
+                        console.log(redFinalScore, blueFinalScore)
+                        presentScore(redFinalScore, blueFinalScore)
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>
