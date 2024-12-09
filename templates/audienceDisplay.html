@@ -83,7 +83,7 @@
                         console.log("yes, being scored");
                         matchStatus.style.display = "block";
                         matchStatus.innerText = "Match Being Scored"
-                    } else if(thisText === "FMS-TEST"){
+                    } else if(thisText === "FMS TEST"){
                         console.log("yes, FMS TEST");
                         matchStatus.style.display = "block";
                         matchStatus.innerText = "FMS TEST"
@@ -92,7 +92,7 @@
                         matchStatus.style.display = "none";
                     }
                 } else {
-                    if(thisText === "FMS-TEST"){
+                    if(thisText === "FMS TEST"){
                         matchStatus.style.display = "block";
                         matchStatus.innerText = "Match Being Scored--FMS"
                     } else {
@@ -141,8 +141,36 @@
                     }
                 }, 1000)
             }
+            function startClockFLL(){
+                var timeLeft = 150
+                var timerSounded = false
+                var intervalID1 = setInterval(function(){
+                    timeLeft -= 1
+                    timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
+                    timeLeftSeconds = timeLeft % 60
+                    if(timeLeftSeconds < 10){
+                        timeLeftSeconds = "0"+timeLeftSeconds;
+                    }
+                    document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
+                    if (timeLeft === 30){
+                        document.getElementById("laser").play()
+                    }
+                    if(timeLeft <= 0){
+                        document.getElementById("time").innerHTML = "0:00"
+                        matchDone = true
+                        if(timerSounded === false){
+                            document.getElementById("buzzer").play()
+                            timerSounded = true
+                        }
+                        return "done";
+                    }
+                }, 1000)
+            }
+            var redScore
+            var blueScore
             function calculateScore(thisData){
                 var score = thisData[0]
+                redScore = thisData[0]
                 /*if(thisData[0] === "y"){
                     score += 20
                 }
@@ -235,6 +263,7 @@
                 }*/
                 document.getElementById("redscore").innerText = score
                 score = thisData[1]
+                blueScore = thisData[1]
                 /*if(thisData[23] === "y"){
                     score += 20
                 }
@@ -350,17 +379,27 @@
                     blueFinalScore = data[2]
                     document.getElementById("rednumber").innerHTML = data[1]
                     document.getElementById("bluenumber").innerHTML = data[2]
+                    macros = data[6]
+                    if(data[7] === "1"){
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "FMS TEST"
+                        startClockFLL();
+                    }
+                    if(data[7] === "2"){
+                        matchStatus.style.display = "block";
+                        matchStatus.innerText = "FMS TEST"
+                    }
                     if(data[3] === "1"){
                         startClock()
                     }
-                    if(data[4] === "Practice"){
-                        document.getElementById("matchNo").innerHTML = data[5] + " of "+practice
+                    if(data[7] === "1" || data[7] === "2"){
+                        document.getElementById("matchNo").innerHTML = data[5]
                         document.getElementById("matchNo").style.display = "block";
                     } else if(data[4] === "Competition"){
                         document.getElementById("matchNo").innerHTML = data[5] + " of "+official
                         document.getElementById("matchNo").style.display = "block";
-                    } else if(data[4] === "FMS-TEST"){
-                        document.getElementById("matchNo").innerHTML = data[5]
+                    } else if(data[4] === "Practice"){
+                        document.getElementById("matchNo").innerHTML = data[5] + " of "+practice
                         document.getElementById("matchNo").style.display = "block";
                     } else if(data[4] === "Break"){
                         document.getElementById("matchNo").innerHTML = data[5]
@@ -381,6 +420,20 @@
                     if(parseInt(data)===1){
                         console.log(redFinalScore, blueFinalScore)
                         presentScore(redFinalScore, blueFinalScore)
+                    }
+                })
+            }
+            function postScores(){
+                console.log("OK")
+                window.location.href = "/finalScores/"+blueFinalScore+"/"+redFinalScore+"/"+blueScore+"/"+redScore;
+            }
+            var intervalID5 = setInterval(update_status, 1000)
+            function update_status(){
+                $.getJSON("/test5",
+                function(data){
+                    console.log(data)
+                    if(data === "1"){
+                        postScores();
                     }
                 })
             }

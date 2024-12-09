@@ -9,6 +9,7 @@
     <body>
         <form action="/fta-blueScore" method="post" id="blue-form">
             <input type="checkbox" id="ready" value="1" hidden>
+            <h3>MATCH <span id="matchNo">{{match}}</span> BLUE STAND -- TEAM <span id="teamNo">{{teamNo}}</span></h3>
             <button id="ready-check" type="button" value="1">Ready for Match</button><br>
             <div id="left-column">
             <fieldset>
@@ -215,42 +216,68 @@
             <button id="finalize-check" value="1" type="button">Finalize Scores</button>
         </form>
         <script>
+            $.getJSON('/test1',
+            function(data) {
+                document.getElementById("teamNo").innerText = data[2]
+                var teamNo = data[2]
+                if(data[4] === "Practice"){
+                    document.getElementById("matchNo").innerText = data[8]
+                } else {
+                    document.getElementById("matchNo").innerText = (data[8] - 9)
+                }
+            })
             var score= 0;
             var readyStatus = 0;
             var graciousProf = 0;
             var finalStatus = 0;
+            var finalData;
             var ready = document.getElementById("ready")
             var readyChecked = document.getElementById("ready-check")
             var equipmentInspectionChecked = document.getElementById("equipment-inspection-check");
             var equipmentInspection = document.getElementById("equipment-inspection");
+            var equipmentInspectionTrack = 0;
             var coral1Checked = document.getElementById("coral-1-check");
             var coral1 = document.getElementById("coral-1");
+            var coral1Track = 0;
             var coral2Checked = document.getElementById("coral-2-check");
             var coral2 = document.getElementById("coral-2");
+            var coral2Track = 0;
             var coral3Checked = document.getElementById("coral-3-check");
             var coral3 = document.getElementById("coral-3");
+            var coral3Track = 0;
             var shark1Checked = document.getElementById("shark-1-check");
             var shark1 = document.getElementById("shark-1")
+            var shark1Track = 0;
             var shark2Checked = document.getElementById("shark-2-check")
             var shark2 = document.getElementById("shark-2")
+            var shark2Track = 0;
             var reef1Checked = document.getElementById("reef-1-check")
             var reef1 = document.getElementById("reef-1")
+            var reef1Track = 0;
             var reef2Checked = document.getElementById("reef-2-check")
             var reef2 = document.getElementById("reef-2")
+            var reef2Track = 0;
             var reef3Checked = document.getElementById("reef-3-check")
             var reef3 = document.getElementById("reef-3")
+            var reef3Track = 0;
             var reef4Checked = document.getElementById("reef-4-check")
             var reef4 = document.getElementById("reef-4")
+            var reef4Track = 0;
             var scuba1Checked = document.getElementById("scuba-1-check")
             var scuba1 = document.getElementById("scuba-1")
+            var scuba1Track = 0;
             var scuba2Checked = document.getElementById("scuba-2-check")
             var scuba2 = document.getElementById("scuba-2")
+            var scuba2Track = 0;
             var angler = document.getElementById("angler")
             var anglerChecked = document.getElementById("angler-check")
+            var anglerTrack = 0;
             var shipwreckChecked = document.getElementById("shipwreck-check")
             var shipwreck = document.getElementById("shipwreck")
+            var shipwreckTrack = 0;
             var krakenChecked = document.getElementById("kraken-check")
             var kraken = document.getElementById("kraken")
+            var krakenTrack = 0;
             var habitat1Checked = document.getElementById("habitat-1-check")
             var habitat1 = document.getElementById("habitat-1")
             var habitat2Checked = document.getElementById("habitat-2-check")
@@ -259,18 +286,25 @@
             var habitat3 = document.getElementById("habitat-3")
             var habitat4Checked = document.getElementById("habitat-4-check")
             var habitat4 = document.getElementById("habitat-4")
+            var habitatTrack = 0;
             var encounter1Checked = document.getElementById("encounter-1-check")
             var encounter1 = document.getElementById("encounter-1")
+            var encounter1Track = 0;
             var encounter2Checked = document.getElementById("encounter-2-check")
             var encounter2 = document.getElementById("encounter-2")
+            var encounter2Track = 0;
             var submersible1Checked = document.getElementById("submersible-1-check")
             var submersible1 = document.getElementById("submersible-1")
+            var submersible1Track = 0;
             var submersible2Checked = document.getElementById("submersible-2-check")
             var submersible2 = document.getElementById("submersible-2")
+            var submersible2Track = 0;
             var sonar1Checked = document.getElementById("sonar-1-check")
             var sonar1 = document.getElementById("sonar-1")
+            var sonar1Track = 0;
             var sonar2Checked = document.getElementById("sonar-2-check")
             var sonar2 = document.getElementById("sonar-2")
+            var sonar2Track = 0;
             var whale1Checked = document.getElementById("whale-1-check")
             var whale1 = document.getElementById("whale-1")
             var whale2Checked = document.getElementById("whale-2-check")
@@ -281,18 +315,25 @@
             var whale4 = document.getElementById("whale-4")
             var whale5Checked = document.getElementById("whale-5-check")
             var whale5 = document.getElementById("whale-5")
+            var whale1Track = 0;
             var shipping = document.getElementById("shipping")
             var shippingChecked = document.getElementById("shipping-check")
+            var shippingTrack = 0;
             var sample1 = document.getElementById("sample-1")
             var sample1Checked = document.getElementById("sample-1-check")
+            var sample1Track = 0;
             var sample2 = document.getElementById("sample-2")
             var sample2Checked = document.getElementById("sample-2-check")
+            var sample2Track = 0;
             var sample3 = document.getElementById("sample-3")
             var sample3Checked = document.getElementById("sample-3-check")
+            var sample3Track = 0;
             var sample4 = document.getElementById("sample-4")
             var sample4Checked = document.getElementById("sample-4-check")
+            var sample4Track = 0;
             var sample5 = document.getElementById("sample-5")
             var sample5Checked = document.getElementById("sample-5-check")
+            var sample5Track = 0;
             var vessel1 = document.getElementById("vessel-1")
             var vessel1Checked = document.getElementById("vessel-1-check")
             var vessel2 = document.getElementById("vessel-2")
@@ -307,8 +348,10 @@
             var vessel6Checked = document.getElementById("vessel-6-check")
             var vessel7 = document.getElementById("vessel-7")
             var vessel7Checked = document.getElementById("vessel-7-check")
+            var vessel1Track = 0; 
             var vessel8 = document.getElementById("vessel-8")
             var vessel8Checked = document.getElementById("vessel-8-check")
+            var vessel2Track = 0;
             var precis1 = document.getElementById("precis-1")
             var precis1Checked = document.getElementById("precis-1-check")
             var precis2 = document.getElementById("precis-2")
@@ -323,12 +366,14 @@
             var precis6Checked = document.getElementById("precis-6-check")
             var precis7 = document.getElementById("precis-7")
             var precis7Checked = document.getElementById("precis-7-check")
+            var precis1Track = 0;
             var gp1 = document.getElementById("gp-1")
             var gp1Checked = document.getElementById("gp-1-check")
             var gp2 = document.getElementById("gp-2")
             var gp2Checked = document.getElementById("gp-2-check")
             var gp3 = document.getElementById("gp-3")
             var gp3Checked = document.getElementById("gp-3-check")
+            var gp1Track = 0;
             var finalize = document.getElementById("finalize")
             var finalizeChecked = document.getElementById("finalize-check")
             function changeReadyStatus(thisElement, thisElementTrigger){
@@ -356,6 +401,14 @@
                     score = score - parseInt(thisElementTrigger.value);
                     console.log(score)
                 }
+            }
+            function trackStatus(thisElement, thisElementTrigger, thisElementTracker){
+                if(thisElement.checked !== true){
+                    thisElementTracker = 0;
+                } else if(thisElement.checked === true){
+                    thisElementTracker = thisElement.value;
+                }
+                return thisElementTracker
             }
             function changeStatus4(thisElement, thisElementTrigger, otherElement1, otherElementTrigger1, otherElement2, otherElementTrigger2, otherElement3, otherElementTrigger3){
                 if(thisElement.checked !== true){
@@ -542,72 +595,197 @@
             }
             window.onload = function(){
                 readyChecked.addEventListener("click", function(){changeReadyStatus(ready, readyChecked)})
-                equipmentInspectionChecked.addEventListener("click", function(){changeStatus(equipmentInspection, equipmentInspectionChecked)})
-                coral1Checked.addEventListener("click", function(){changeStatus(coral1, coral1Checked)})
-                coral2Checked.addEventListener("click", function(){changeStatus(coral2, coral2Checked)})
-                coral3Checked.addEventListener("click", function(){changeStatus(coral3, coral3Checked)})
-                shark1Checked.addEventListener("click", function(){changeStatus(shark1, shark1Checked)})
-                shark2Checked.addEventListener("click", function(){changeStatus(shark2, shark2Checked)})
-                reef1Checked.addEventListener("click", function(){changeStatus(reef1, reef1Checked)})
-                reef2Checked.addEventListener("click", function(){changeStatus(reef2, reef2Checked)})
-                reef3Checked.addEventListener("click", function(){changeStatus(reef3, reef3Checked)})
-                reef4Checked.addEventListener("click", function(){changeStatus(reef4, reef4Checked)})
-                scuba1Checked.addEventListener("click", function(){changeStatus(scuba1, scuba1Checked)})
-                scuba2Checked.addEventListener("click", function(){changeStatus(scuba2, scuba2Checked)})
-                anglerChecked.addEventListener("click", function(){changeStatus(angler, anglerChecked)})
-                shipwreckChecked.addEventListener("click", function(){changeStatus(shipwreck, shipwreckChecked)})
-                krakenChecked.addEventListener("click", function(){changeStatus(kraken, krakenChecked)})
-                habitat1Checked.addEventListener("click", function(){changeStatus4(habitat1, habitat1Checked, habitat2, habitat2Checked, habitat3, habitat3Checked, habitat4, habitat4Checked)})
-                habitat2Checked.addEventListener("click", function(){changeStatus4(habitat2, habitat2Checked, habitat1, habitat1Checked, habitat3, habitat3Checked, habitat4, habitat4Checked)})
-                habitat3Checked.addEventListener("click", function(){changeStatus4(habitat3, habitat3Checked, habitat1, habitat1Checked, habitat2, habitat2Checked, habitat4, habitat4Checked)})
-                habitat4Checked.addEventListener("click", function(){changeStatus4(habitat4, habitat4Checked, habitat1, habitat1Checked, habitat2, habitat2Checked, habitat3, habitat3Checked)})
-                encounter1Checked.addEventListener("click", function(){changeStatus(encounter1, encounter1Checked)})
-                encounter2Checked.addEventListener("click", function(){changeStatus(encounter2, encounter2Checked)})
-                submersible1Checked.addEventListener("click", function(){changeStatus(submersible1, submersible1Checked)})
-                submersible2Checked.addEventListener("click", function(){changeStatus(submersible2, submersible2Checked)})
-                sonar1Checked.addEventListener("click", function(){changeStatus(sonar1, sonar1Checked)})
-                sonar2Checked.addEventListener("click", function(){changeStatus(sonar2, sonar2Checked)})
-                whale1Checked.addEventListener("click", function(){changeStatus5(whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale4, whale4Checked, whale5, whale5Checked)})
-                whale2Checked.addEventListener("click", function(){changeStatus5(whale2, whale2Checked, whale1, whale1Checked, whale3, whale3Checked, whale4, whale4Checked, whale5, whale5Checked)})
-                whale3Checked.addEventListener("click", function(){changeStatus5(whale3, whale3Checked, whale1, whale1Checked, whale2, whale2Checked, whale4, whale4Checked, whale5, whale5Checked)})
-                whale4Checked.addEventListener("click", function(){changeStatus5(whale4, whale4Checked, whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale5, whale5Checked)})
-                whale5Checked.addEventListener("click", function(){changeStatus5(whale5, whale5Checked, whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale4, whale4Checked)})
-                shippingChecked.addEventListener("click", function(){changeStatus(shipping, shippingChecked)})
-                sample1Checked.addEventListener("click", function(){changeStatus(sample1, sample1Checked)})
-                sample2Checked.addEventListener("click", function(){changeStatus(sample2, sample2Checked)})
-                sample3Checked.addEventListener("click", function(){changeStatus(sample3, sample3Checked)})
-                sample4Checked.addEventListener("click", function(){changeStatus(sample4, sample4Checked)})
-                sample5Checked.addEventListener("click", function(){changeStatus(sample5, sample5Checked)})
-                vessel1Checked.addEventListener("click", function(){changeStatus7(vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
-                vessel2Checked.addEventListener("click", function(){changeStatus7(vessel2, vessel2Checked, vessel1, vessel1Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
-                vessel3Checked.addEventListener("click", function(){changeStatus7(vessel3, vessel3Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
-                vessel4Checked.addEventListener("click", function(){changeStatus7(vessel4, vessel4Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
-                vessel5Checked.addEventListener("click", function(){changeStatus7(vessel5, vessel5Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)})
-                vessel6Checked.addEventListener("click", function(){changeStatus7(vessel6, vessel6Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel7, vessel7Checked)})
-                vessel7Checked.addEventListener("click", function(){changeStatus7(vessel7, vessel7Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked)})
-                vessel8Checked.addEventListener("click", function(){changeStatus(vessel8, vessel8Checked)})
-                precis1Checked.addEventListener("click", function(){changeStatusPT7(precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
-                precis2Checked.addEventListener("click", function(){changeStatusPT7(precis2, precis2Checked, precis1, precis1Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
-                precis3Checked.addEventListener("click", function(){changeStatusPT7(precis3, precis3Checked, precis1, precis1Checked, precis2, precis2Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
-                precis4Checked.addEventListener("click", function(){changeStatusPT7(precis4, precis4Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)})
-                precis5Checked.addEventListener("click", function(){changeStatusPT7(precis5, precis5Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis6, precis6Checked, precis7, precis7Checked)})
-                precis6Checked.addEventListener("click", function(){changeStatusPT7(precis6, precis6Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis7, precis7Checked)})
-                precis7Checked.addEventListener("click", function(){changeStatusPT7(precis7, precis7Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked)})
-                gp1Checked.addEventListener("click", function(){changeGPStatus3(gp1, gp1Checked, gp2, gp2Checked, gp3, gp3Checked)})
-                gp2Checked.addEventListener("click", function(){changeGPStatus3(gp2, gp2Checked, gp1, gp1Checked, gp3, gp3Checked)})
-                gp3Checked.addEventListener("click", function(){changeGPStatus3(gp3, gp3Checked, gp1, gp1Checked, gp2, gp2Checked)})
+                equipmentInspectionChecked.addEventListener("click", function(){changeStatus(equipmentInspection, equipmentInspectionChecked)
+                    equipmentInspectionTrack = trackStatus(equipmentInspection, equipmentInspectionChecked, equipmentInspectionTrack)
+                })
+                coral1Checked.addEventListener("click", function(){changeStatus(coral1, coral1Checked, coral1Track)
+                    coral1Track = trackStatus(coral1, coral1Checked, coral1Track)
+                })
+                coral2Checked.addEventListener("click", function(){changeStatus(coral2, coral2Checked, coral2Track)
+                    coral2Track = trackStatus(coral2, coral2Checked, coral2Track)
+                })
+                coral3Checked.addEventListener("click", function(){changeStatus(coral3, coral3Checked, coral3Track)
+                    coral3Track = trackStatus(coral3, coral3Checked, coral3Track)
+                })
+                shark1Checked.addEventListener("click", function(){changeStatus(shark1, shark1Checked)
+                    shark1Track = trackStatus(shark1, shark1Checked, shark1Track)
+                })
+                shark2Checked.addEventListener("click", function(){changeStatus(shark2, shark2Checked)
+                    shark2Track = trackStatus(shark2, shark2Checked, shark2Track)
+                })
+                reef1Checked.addEventListener("click", function(){changeStatus(reef1, reef1Checked)
+                    reef1Track = trackStatus(reef1, reef1Checked, reef1Track)
+                })
+                reef2Checked.addEventListener("click", function(){changeStatus(reef2, reef2Checked)
+                    reef2Track = trackStatus(reef2, reef2Checked, reef2Track)
+                })
+                reef3Checked.addEventListener("click", function(){changeStatus(reef3, reef3Checked)
+                    reef3Track = trackStatus(reef3, reef3Checked, reef3Track)
+                })
+                reef4Checked.addEventListener("click", function(){changeStatus(reef4, reef4Checked)
+                    reef4Track = trackStatus(reef4, reef4Checked, reef4Track)
+                })
+                scuba1Checked.addEventListener("click", function(){changeStatus(scuba1, scuba1Checked)
+                    scuba1Track = trackStatus(scuba1, scuba1Checked, scuba1Track)
+                })
+                scuba2Checked.addEventListener("click", function(){changeStatus(scuba2, scuba2Checked)
+                    scuba2Track = trackStatus(scuba2, scuba2Checked, scuba2Track)
+                })
+                anglerChecked.addEventListener("click", function(){changeStatus(angler, anglerChecked)
+                    anglerTrack = trackStatus(angler, anglerChecked, anglerTrack)
+                })
+                shipwreckChecked.addEventListener("click", function(){changeStatus(shipwreck, shipwreckChecked)
+                    shipwreckTrack = trackStatus(shipwreck, shipwreckChecked, shipwreckTrack)
+                })
+                krakenChecked.addEventListener("click", function(){changeStatus(kraken, krakenChecked)
+                    krakenTrack = trackStatus(kraken, krakenChecked, krakenTrack)
+                })
+                habitat1Checked.addEventListener("click", function(){changeStatus4(habitat1, habitat1Checked, habitat2, habitat2Checked, habitat3, habitat3Checked, habitat4, habitat4Checked)
+                    habitatTrack = trackStatus(habitat1, habitat1Checked, habitatTrack)
+                })
+                habitat2Checked.addEventListener("click", function(){changeStatus4(habitat2, habitat2Checked, habitat1, habitat1Checked, habitat3, habitat3Checked, habitat4, habitat4Checked)
+                    habitatTrack = trackStatus(habitat2, habitat2Checked, habitatTrack)
+                })
+                habitat3Checked.addEventListener("click", function(){changeStatus4(habitat3, habitat3Checked, habitat1, habitat1Checked, habitat2, habitat2Checked, habitat4, habitat4Checked)
+                    habitatTrack = trackStatus(habitat3, habitat3Checked, habitatTrack)
+                })
+                habitat4Checked.addEventListener("click", function(){changeStatus4(habitat4, habitat4Checked, habitat1, habitat1Checked, habitat2, habitat2Checked, habitat3, habitat3Checked)
+                    habitatTrack = trackStatus(habitat4, habitat4Checked, habitatTrack)
+                })
+                encounter1Checked.addEventListener("click", function(){changeStatus(encounter1, encounter1Checked)
+                    encounter1Track = trackStatus(encounter1, encounter1Checked, encounter1Track)
+                })
+                encounter2Checked.addEventListener("click", function(){changeStatus(encounter2, encounter2Checked)
+                    encounter2Track = trackStatus(encounter2, encounter2Checked, encounter2Track)
+                })
+                submersible1Checked.addEventListener("click", function(){changeStatus(submersible1, submersible1Checked)
+                    submersible1Track = trackStatus(submersible1, submersible1Checked, submersible1Track)
+                })
+                submersible2Checked.addEventListener("click", function(){changeStatus(submersible2, submersible2Checked)
+                    submersible2Track = trackStatus(submersible2, submersible2Checked, submersible2Track)
+                })
+                sonar1Checked.addEventListener("click", function(){changeStatus(sonar1, sonar1Checked)
+                    sonar1Track = trackStatus(sonar1, sonar1Checked, sonar1Track)
+                })
+                sonar2Checked.addEventListener("click", function(){changeStatus(sonar2, sonar2Checked)
+                    sonar2Track = trackStatus(sonar2, sonar2Checked, sonar2Track)
+                })
+                whale1Checked.addEventListener("click", function(){changeStatus5(whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale4, whale4Checked, whale5, whale5Checked)
+                    whale1Track = trackStatus(whale1, whale1Checked, whale1Track)
+                })
+                whale2Checked.addEventListener("click", function(){changeStatus5(whale2, whale2Checked, whale1, whale1Checked, whale3, whale3Checked, whale4, whale4Checked, whale5, whale5Checked)
+                    whale1Track = trackStatus(whale2, whale2Checked, whale1Track)
+                })
+                whale3Checked.addEventListener("click", function(){changeStatus5(whale3, whale3Checked, whale1, whale1Checked, whale2, whale2Checked, whale4, whale4Checked, whale5, whale5Checked)
+                    whale1Track = trackStatus(whale3, whale3Checked, whale1Track)
+                })
+                whale4Checked.addEventListener("click", function(){changeStatus5(whale4, whale4Checked, whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale5, whale5Checked)
+                    whale1Track = trackStatus(whale4, whale4Checked, whale1Track)
+                })
+                whale5Checked.addEventListener("click", function(){changeStatus5(whale5, whale5Checked, whale1, whale1Checked, whale2, whale2Checked, whale3, whale3Checked, whale4, whale4Checked)
+                    whale1Track = trackStatus(whale5, whale5Checked, whale1Track)
+                })
+                shippingChecked.addEventListener("click", function(){changeStatus(shipping, shippingChecked)
+                    shippingTrack = trackStatus(shipping, shippingChecked, shippingTrack)
+                })
+                sample1Checked.addEventListener("click", function(){changeStatus(sample1, sample1Checked)
+                    sample1Track = trackStatus(sample1, sample1Checked, sample1Track)
+                })
+                sample2Checked.addEventListener("click", function(){changeStatus(sample2, sample2Checked)
+                    sample2Track = trackStatus(sample2, sample2Checked, sample2Track)
+                })
+                sample3Checked.addEventListener("click", function(){changeStatus(sample3, sample3Checked)
+                    sample3Track = trackStatus(sample3, sample3Checked, sample3Track)
+                })
+                sample4Checked.addEventListener("click", function(){changeStatus(sample4, sample4Checked)
+                    sample4Track = trackStatus(sample4, sample4Checked, sample4Track)
+                })
+                sample5Checked.addEventListener("click", function(){changeStatus(sample5, sample5Checked)
+                    sample5Track = trackStatus(sample5, sample5Checked, sample5Track)
+                })
+                vessel1Checked.addEventListener("click", function(){changeStatus7(vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)
+                    vessel1Track = trackStatus(vessel1, vessel1Checked, vessel1Track)
+                })
+                vessel2Checked.addEventListener("click", function(){changeStatus7(vessel2, vessel2Checked, vessel1, vessel1Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)
+                    vessel1Track = trackStatus(vessel2, vessel2Checked, vessel1Track)
+                })
+                vessel3Checked.addEventListener("click", function(){changeStatus7(vessel3, vessel3Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)
+                    vessel1Track = trackStatus(vessel3, vessel3Checked, vessel1Track)
+                })
+                vessel4Checked.addEventListener("click", function(){changeStatus7(vessel4, vessel4Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel5, vessel5Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)
+                    vessel1Track = trackStatus(vessel4, vessel4Checked, vessel1Track)
+                })
+                vessel5Checked.addEventListener("click", function(){changeStatus7(vessel5, vessel5Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel6, vessel6Checked, vessel7, vessel7Checked)
+                    vessel1Track = trackStatus(vessel5, vessel5Checked, vessel1Track)
+                })
+                vessel6Checked.addEventListener("click", function(){changeStatus7(vessel6, vessel6Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel7, vessel7Checked)
+                    vessel1Track = trackStatus(vessel6, vessel6Checked, vessel1Track)
+                })
+                vessel7Checked.addEventListener("click", function(){changeStatus7(vessel7, vessel7Checked, vessel1, vessel1Checked, vessel2, vessel2Checked, vessel3, vessel3Checked, vessel4, vessel4Checked, vessel5, vessel5Checked, vessel6, vessel6Checked)
+                    vessel1Track = trackStatus(vessel7, vessel7Checked, vessel1Track)
+                })
+                vessel8Checked.addEventListener("click", function(){changeStatus(vessel8, vessel8Checked)
+                    vessel2Track = trackStatus(vessel8, vessel8Checked, vessel2Track)
+                })
+                precis1Checked.addEventListener("click", function(){changeStatusPT7(precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)
+                    precis1Track = trackStatus(precis1, precis1Checked, precis1Track)
+                })
+                precis2Checked.addEventListener("click", function(){changeStatusPT7(precis2, precis2Checked, precis1, precis1Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)
+                    precis1Track = trackStatus(precis2, precis2Checked, precis1Track)
+                })
+                precis3Checked.addEventListener("click", function(){changeStatusPT7(precis3, precis3Checked, precis1, precis1Checked, precis2, precis2Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)
+                    precis1Track = trackStatus(precis3, precis3Checked, precis1Track)
+                })
+                precis4Checked.addEventListener("click", function(){changeStatusPT7(precis4, precis4Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis5, precis5Checked, precis6, precis6Checked, precis7, precis7Checked)
+                    precis1Track = trackStatus(precis4, precis4Checked, precis1Track)
+                })
+                precis5Checked.addEventListener("click", function(){changeStatusPT7(precis5, precis5Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis6, precis6Checked, precis7, precis7Checked)
+                    precis1Track = trackStatus(precis5, precis5Checked, precis1Track)
+                })
+                precis6Checked.addEventListener("click", function(){changeStatusPT7(precis6, precis6Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis7, precis7Checked)
+                    precis1Track = trackStatus(precis6, precis6Checked, precis1Track)
+                })
+                precis7Checked.addEventListener("click", function(){changeStatusPT7(precis7, precis7Checked, precis1, precis1Checked, precis2, precis2Checked, precis3, precis3Checked, precis4, precis4Checked, precis5, precis5Checked, precis6, precis6Checked)
+                    precis1Track = trackStatus(precis7, precis7Checked, precis1Track)
+                })
+                gp1Checked.addEventListener("click", function(){changeGPStatus3(gp1, gp1Checked, gp2, gp2Checked, gp3, gp3Checked)
+                    gp1Track = trackStatus(gp1, gp1Checked, gp1Track)
+                })
+                gp2Checked.addEventListener("click", function(){changeGPStatus3(gp2, gp2Checked, gp1, gp1Checked, gp3, gp3Checked)
+                    gp2Track = trackStatus(gp2, gp2Checked, gp1Track)
+                })
+                gp3Checked.addEventListener("click", function(){changeGPStatus3(gp3, gp3Checked, gp1, gp1Checked, gp2, gp2Checked)
+                    gp3Track = trackStatus(gp3, gp3Checked, gp1Track)
+                })
                 finalizeChecked.addEventListener("click", function(){changeFinalStatus(finalize, finalizeChecked)})
             }
             //var final = 0;
             //var readyStatus = 0;
             var intervalID2 = setInterval(update_status, 1000)
             var form1 = document.getElementById("blue-form")
+            var form2 = document.createElement("form")
+            form2.action = "/test6"
+            form2.id = "blue-final-form"
+            form2.method = "POST"
+            form2.style.display = "none"
+            var inputForm = document.createElement("input")
+            inputForm.id = "blue-final-data"
+            inputForm.name = "blue-final-data"
+            var submitForm = document.createElement("input")
+            submitForm.type = "submit"
+            form2.appendChild(submitForm)
+            form2.appendChild(inputForm)
+            document.body.appendChild(form2)
             function update_status(){
+                var thisMatch = document.getElementById("matchNo").innerText
+                var thisTeam = document.getElementById("teamNo").innerText
+                document.getElementById("blue-final-data").value = thisMatch+","+thisTeam+","+equipmentInspectionTrack+","+coral1Track+","+coral2Track+","+coral3Track+","+shark1Track+","+shark2Track+","+reef1Track+","+reef2Track+","+reef3Track+","+reef4Track+","+scuba1Track+","+scuba2Track+","+anglerTrack+","+shipwreckTrack+","+krakenTrack+","+habitatTrack+","+encounter1Track+","+encounter2Track+","+submersible1Track+","+submersible2Track+","+sonar1Track+","+sonar2Track+","+whale1Track+","+shippingTrack+","+sample1Track+","+sample2Track+","+sample3Track+","+sample4Track+","+sample5Track+","+vessel1Track+","+vessel2Track+","+precis1Track+","+gp1Track+","+score
                 $.getJSON("/test5",
                 function(data){
                     console.log(data)
                     if(data === "1"){
-                        form1.submit()
+                        //form1.submit()
+                        document.getElementById("blue-final-form").submit()
                         //final = 0
                         //readyStatus = 0
                     }

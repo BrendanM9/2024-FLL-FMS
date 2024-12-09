@@ -12,9 +12,9 @@
             <select id="tickerMessage">
                 <option value="All-Systems-Go">All Systems Go</option>
                 <option value="Match-Under-Review">Match Under Review</option>
-                <option value="FMS-TEST">FMS Test</option>
+                <!--<option value="FMS-TEST">FMS Test</option>-->
                 <option value="Match-Being-Scored">Match Being Scored</option>
-                <option value="Break">Break (set return time)</option>
+                <!--<option value="Break">Break (set return time)</option>-->
             </select><br>
             <h3>Current Match</h3>
             <button id="next-match" onclick="sync()" type="button">Next Match</button>
@@ -36,7 +36,7 @@
             <div id="stationTwoSubmit"></div>
             <p>Station Two Submitted</p><br>
             <h5>Do NOT submit match as final until both stations have successfully submitted!</h5>
-            <button id="matchSubmit" onclick="matchSubmit1()" type="button">Submit Match As Final</button>
+            <button id="matchSubmit" type="button">Submit Match As Final</button>
             <!--<input type="button" onclick="startClock()">-->
         </form>
         <script>
@@ -76,6 +76,7 @@
             thisEventInput.value = thisEvent
             var submitStatus = 0
             function matchSubmit1(){
+                document.getElementById("event").value = parseInt(document.getElementById("event").value) + 1
                 submitStatus = 1
             }
             function sync(){

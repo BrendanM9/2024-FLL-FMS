@@ -1,33 +1,6 @@
 {
     "QT Bend": [
         {
-            "activity": "Volunteer Check-In",
-            "type": "Info",
-            "matchCode": 0,
-            "startTime": "8:00",
-            "endTime": "",
-            "teamR": "",
-            "teamB": ""
-        },
-        {
-            "activity": "Judges' Meeting",
-            "type": "Info",
-            "matchCode": 0,
-            "startTime": "8:15",
-            "endTime": "",
-            "teamR": "",
-            "teamB": ""
-        },
-        {
-            "activity": "Coaches' Meeting",
-            "type": "Info",
-            "matchCode": 0,
-            "startTime": "8:30",
-            "endTime": "",
-            "teamR": "",
-            "teamB": ""
-        },
-        {
             "activity": "Opening Ceremony",
             "type": "Break",
             "matchCode": 0,
@@ -116,15 +89,6 @@
             "endTime": "10:35",
             "teamR": "62796",
             "teamB": "64184"
-        },
-        {
-            "activity": "Break 1",
-            "type": "Break",
-            "matchCode": 0,
-            "startTime": "10:45",
-            "endTime": "11:00",
-            "teamR": "",
-            "teamB": ""
         },
         {
             "activity": "Match 1",

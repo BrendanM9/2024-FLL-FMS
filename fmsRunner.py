@@ -1,15 +1,22 @@
-
-from flask import Flask, render_template, request, Response, stream_with_context, redirect, url_for, jsonify
+from flask import Flask, render_template, request, Response, stream_with_context, redirect, url_for, jsonify, make_response
 from os import listdir
 import os
 import random
 import time
 import json
 import datetime
+import pandas as pd
+import csv
 app = Flask(__name__)
 thisClock = 0
 users = ["bMedina", "rWelbourn", "root"]
 passwords = ["graciousProffesionalism", "fll", "root"]
+global matchNumber
+matchNumber = 0
+global blueTeam
+blueTeam = 0
+global redTeam
+redTeam = 0
 @app.route("/openCeremonies")
 def opening():
     return render_template("openingTeleprompter.html")
@@ -91,10 +98,18 @@ def setAudienceDisplay():
     return render_template("setAudienceDisplay.html")
 @app.route("/fta-redScore", methods=["GET", "POST"])
 def scoreRed():
-    return render_template("redScorekeeper.html")
+    match1 = open("currentMatch.txt")
+    for line3 in match1:
+        thisMatch = line3
+    match1.close()
+    return render_template("redScorekeeper.html", match = thisMatch, teamNo = redTeam)
 @app.route("/fta-blueScore", methods=["GET", "POST"])
 def scoreBlue():
-    return render_template("blueScorekeeper.html")
+    match1 = open("currentMatch.txt")
+    for line3 in match1:
+        thisMatch = line3
+    match1.close()
+    return render_template("blueScorekeeper.html", match = thisMatch, teamNo = blueTeam)
 @app.route("/fieldLogin")
 def ftaLogin():
     return render_template("fieldLogin.html")
@@ -119,6 +134,9 @@ def showDisplay():
     blueScore = 00
     blueBonus = ""
     return render_template("audienceDisplay.html", thisMatch = thisMatch, totalMatches = totalMatches, redTeam= redTeam, redScore = redScore, redBonus = redBonus, currentStatus = currentStatus, blueTeam = blueTeam, blueScore = blueScore, blueBonus = blueBonus)
+@app.route('/controlPanel')
+def controller():
+    return render_template("controlPanel.html")
 @app.route('/test1', methods=["GET"])
 def test1():
         current = open("currentStatus.txt")
@@ -126,6 +144,10 @@ def test1():
         for line in current:
             thisStatus = line
         current.close()
+        macro = open("macroStatus.txt")
+        for line2 in macro:
+            thisTest = line2[1]
+            thisMacro = line2
         event1 = open("currentMatch.txt")
         for line1 in event1:
             thisMatch = line1
@@ -133,16 +155,16 @@ def test1():
         json_url = os.path.join(SITE_ROOT, "static", "eventSchedule.json")
         eventJson = json.load(open(json_url))
         thisMatchData = eventJson["QT Bend"][int(thisMatch)+1]
-        if(thisStatus != "FMS-TEST"):
-            thisRed = thisMatchData["teamR"]
-            thisBlue = thisMatchData["teamB"]
-            thisTicker = thisMatchData["activity"]
-            thisType = thisMatchData["type"]
-        else:
+        if(thisTest == "1" or thisTest == "2"):
             thisRed = "Test 1"
             thisBlue = "Test 2"
             thisTicker = "FMS Field Test"
             thisType = "FMS-TEST"
+        else:
+            thisRed = thisMatchData["teamR"]
+            thisBlue = thisMatchData["teamB"]
+            thisTicker = thisMatchData["activity"]
+            thisType = thisMatchData["type"]
         clock = open("clockStatus.txt")
         for line2 in clock:
             thisClock = line2
@@ -150,7 +172,7 @@ def test1():
             if(thisClock == 1):
                 clockStatus1.write(0)
                 clockStatus1.close()'''
-        return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker)
+        return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker, thisMacro, thisTest, thisMatch)
 @app.route('/test2', methods=["GET"])
 def test2():
         cinema1 = open("redScore.txt")
@@ -182,6 +204,26 @@ def test5():
         thisMatchStatus = line
     fullStatus.close()
     return jsonify(thisMatchStatus)
+@app.route('/test6', methods=["GET", "POST"])
+def submitMatchData():
+    if request.method == "POST":
+        blueRow = request.form["blue-final-data"]
+    thisMatchData = blueRow
+    thisMatchDataSplit = thisMatchData.split(",")
+    with open('blueData.csv', 'a') as bd:
+        writer = csv.writer(bd)
+        writer.writerow(thisMatchDataSplit)
+    return render_template("matchSubmitSuccessBlue.html", match = thisMatchDataSplit[0])
+@app.route('/test7', methods=["GET", "POST"])
+def submitMatchDataRed():
+    if request.method == "POST":
+        redRow = request.form["red-final-data"]
+    thisMatchData = redRow
+    thisMatchDataSplit = thisMatchData.split(",")
+    with open('redData.csv', 'a') as rd:
+        writer = csv.writer(rd)
+        writer.writerow(thisMatchDataSplit)
+    return render_template("matchSubmitSuccessRed.html", match = thisMatchDataSplit[0])
 @app.route('/getmethod/<jsdata>/<eventdata>/<clock>/<status1>')
 def get_javascript_data(jsdata, eventdata, clock, status1):
     with open("currentStatus.txt", "w") as status:
@@ -215,5 +257,15 @@ def get_javascript_data_blue(ready, datum, final, gp):
         blueFinal.write(ready+final)
         blueFinal.close()
     return jsonify(result=datum)
+@app.route('/runmacro/<toh>/<test>/<resync>')
+def update_macros(toh, test, resync):
+    macro = toh + test + resync
+    with open("macroStatus.txt", "w") as macroStatus:
+        macroStatus.write(macro)
+        macroStatus.close()
+    return jsonify(result=macro)
+@app.route("/finalScores/<blueteam>/<redteam>/<bluepts>/<redpts>")
+def returnResults(blueteam, redteam, bluepts, redpts):
+    return render_template("finalScores.html", blueTeam = blueteam, redTeam = redteam, blueScore = bluepts, redScore = redpts)
 if __name__=="__main__":
     Flask.run(app, debug=True, host='0.0.0.0', threaded=True, port="8000")
