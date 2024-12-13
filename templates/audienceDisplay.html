@@ -6,6 +6,10 @@
         <link rel="stylesheet" href="static/audience.css">
     </head>
     <body>
+        <div id="scorebar-mask" hidden>
+            <p id="scorebar-mask-check"></p>
+            <img src = "static/audienceDisplayMask.png" id="fllLogo1">
+        </div>
         <div id="scorebar">
             <div id="red-line"></div>
             <div id="red">
@@ -48,9 +52,12 @@
                 <audio id="laser">
                     <source src="static/laser.mp3">
                 </audio>
+                <audio id="bell">
+                    <source src="static/bell.mp3">
+                </audio>
             </div>
             <img id="FLLlogo" src="static/FLL Sponsors.png">
-            <div id="Tournament-Info"><b>BEND QT TOURNAMENT</b></div>
+            <div id="Tournament-Info"><b>BEND QUALIFIYING TOURNAMENT</b></div>
             <div id="blue">
                 <div id="blue-line"></div>
                 <div id="bluenumber">
@@ -72,6 +79,15 @@
             </div>
         </div>
         <script>
+            function checkMask(maskingStatus){
+                if(maskingStatus === "1"){
+                    document.getElementById("scorebar-mask").style.display = "block"
+                    document.getElementById("scorebar").style.display = "none"
+                } else if(maskingStatus === "0"){
+                    document.getElementById("scorebar-mask").style.display = "none"
+                    document.getElementById("scorebar").style.display = "block"
+                }
+            }
             var matchStatus = document.getElementById("matchStatus")
             function setAudienceStatus(thisText){
                 if(matchDone !== true){
@@ -117,28 +133,37 @@
             }*/
             var matchDone = false
             function startClock(){
-                var timeLeft = 150
+                var timeLeft = 156
                 var timerSounded = false
                 var intervalID1 = setInterval(function(){
                     timeLeft -= 1
-                    timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
-                    timeLeftSeconds = timeLeft % 60
-                    if(timeLeftSeconds < 10){
-                        timeLeftSeconds = "0"+timeLeftSeconds;
-                    }
-                    document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
-                    if (timeLeft === 30){
-                        document.getElementById("laser").play()
-                    }
-                    if(timeLeft <= 0){
-                        document.getElementById("time").innerHTML = "0:00"
-                        matchDone = true
-                        if(timerSounded === false){
-                            document.getElementById("buzzer").play()
-                            timerSounded = true
+                    if(timeLeft > 150){
+                        timeLeftSeconds = timeLeft % 60
+                        timeLeftSeconds = timeLeftSeconds - 30;
+                        document.getElementById("time").innerHTML = timeLeftSeconds
+                    } else {
+                        if(timeLeft === 150){
+                            document.getElementById("bell").play()
                         }
-                        return "done";
+                        timeLeftMinutes = (timeLeft - (timeLeft % 60))/60
+                        timeLeftSeconds = timeLeft % 60
+                        if(timeLeftSeconds < 10){
+                            timeLeftSeconds = "0"+timeLeftSeconds;
+                        }
+                        document.getElementById("time").innerHTML = timeLeftMinutes +":"+timeLeftSeconds
+                        if (timeLeft === 30){
+                            document.getElementById("laser").play()
+                        }
+                        if(timeLeft <= 0){
+                            document.getElementById("time").innerHTML = "0:00"
+                            matchDone = true
+                            if(timerSounded === false){
+                                document.getElementById("buzzer").play()
+                                timerSounded = true
+                            }
+                        }
                     }
+                    return "done";
                 }, 1000)
             }
             function startClockFLL(){
@@ -161,6 +186,11 @@
                         if(timerSounded === false){
                             document.getElementById("buzzer").play()
                             timerSounded = true
+                            fmsBlueFinalScore = document.getElementById("bluenumber").innerText
+                            fmsBlueScore = document.getElementById("bluescore").innerText
+                            fmsRedFinalScore = document.getElementById("rednumber").innerText
+                            fmsRedScore = document.getElementById("redscore").innerText
+                            window.location.href = "/finalScores/"+fmsBlueFinalScore+"/"+fmsRedFinalScore+"/"+fmsBlueScore+"/"+fmsRedScore;
                         }
                         return "done";
                     }
@@ -374,6 +404,7 @@
                     $('matchStatus').text(data.result)
                     console.log(data)
                     //document.getElementById('matchStatus').innerText = data
+                    checkMask(data[9]);
                     setAudienceStatus(data[0])
                     redFinalScore = data[1]
                     blueFinalScore = data[2]

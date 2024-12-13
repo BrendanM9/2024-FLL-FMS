@@ -14,7 +14,9 @@
             <button id="testCheck" type="button" value=1>Run FMS TEST</button>
             <input id="resync" type="checkbox" value=1 hidden>
             <button id="resyncCheck" type="button" value=1>Run Field Load/ReSync</button>
-            <input type="checkbox" id="testClock" value=1>
+            <input type="checkbox" id="testClock" value=1 hidden>
+            <input id="mask" type="checkbox" value=1 hidden>
+            <button id="maskCheck" type="button" value=1>Mask FMS Scoreboard</button>
         </form>
         <script>
             var toh = document.getElementById("toh")
@@ -23,10 +25,13 @@
             var testChecked = document.getElementById("testCheck")
             var resync = document.getElementById("resync")
             var resyncChecked = document.getElementById("resyncCheck")
+            var mask = document.getElementById("mask")
+            var maskChecked = document.getElementById("maskCheck")
             var testClockRunning = document.getElementById("testClock")
             var tohStatus = 0
             var testStatus = 0
             var resyncStatus = 0
+            var maskStatus = 0
             function updateMacroStatus(item, itemCheck, itemStatus){
                 if(item.checked !== true){
                     item.checked = true;
@@ -45,6 +50,7 @@
                 tohChecked.addEventListener("click", function(){tohStatus = updateMacroStatus(toh, tohChecked, tohStatus)})
                 testChecked.addEventListener("click", function(){testStatus = updateMacroStatus(test, testChecked, testStatus)})
                 resyncChecked.addEventListener("click", function(){resyncStatus = updateMacroStatus(resync, resyncChecked, resyncStatus)})
+                maskChecked.addEventListener("click", function(){maskStatus = updateMacroStatus(mask, maskChecked, maskStatus)})
             }
             window.setInterval(function(){
                 if(testClockRunning.checked === true){
@@ -60,7 +66,7 @@
                 //resyncChecked.checked = false;
             }, 1000)
             function updateMacros(){
-                $.get( "/runmacro/"+tohStatus+"/"+testStatus+"/"+resyncStatus);
+                $.get( "/runmacro/"+tohStatus+"/"+testStatus+"/"+resyncStatus+"/"+maskStatus);
                 if(testStatus === 1){
                     testClockRunning.click()
                 }

@@ -115,23 +115,23 @@ def ftaLogin():
     return render_template("fieldLogin.html")
 @app.route("/audience", methods=["GET", "POST"])
 def showDisplay():
-    thisMatch = 1
-    totalMatches = 15
-    redTeam = "Test 1"
-    redScore = 00
+    thisMatch = 0
+    totalMatches = 0
+    redTeam = "Team 1"
+    redScore = 0
     redBonus = ""
     #currentStatus = "Match Under Review"
     #currentStatus = "Match Being Scored"
     #currentStatus = "Match In Progress"
     #currentStatus = "Match Queueing"
     #currentStatus = "Break, Will Return:"
-    #currentStatus = "No Match Set"
+    currentStatus = "NO MATCH SET"
     #currentStatus = "Match Scored"
     #currentStatus = "Match Starting"
     #currentStatus = "Practice Match"
-    currentStatus = "FMS-TEST"
-    blueTeam = "Test 2"
-    blueScore = 00
+    #currentStatus = "FMS-TEST"
+    blueTeam = "Team 2"
+    blueScore = 0
     blueBonus = ""
     return render_template("audienceDisplay.html", thisMatch = thisMatch, totalMatches = totalMatches, redTeam= redTeam, redScore = redScore, redBonus = redBonus, currentStatus = currentStatus, blueTeam = blueTeam, blueScore = blueScore, blueBonus = blueBonus)
 @app.route('/controlPanel')
@@ -147,7 +147,9 @@ def test1():
         macro = open("macroStatus.txt")
         for line2 in macro:
             thisTest = line2[1]
+            thisMask = line2[3]
             thisMacro = line2
+        macro.close()
         event1 = open("currentMatch.txt")
         for line1 in event1:
             thisMatch = line1
@@ -165,6 +167,11 @@ def test1():
             thisBlue = thisMatchData["teamB"]
             thisTicker = thisMatchData["activity"]
             thisType = thisMatchData["type"]
+        if(thisTicker == None):
+            thisTicker = "NO MATCH SET"
+            thisRed = "Team 1"
+            thisBlue = "Team 2"
+            thisType= ""
         clock = open("clockStatus.txt")
         for line2 in clock:
             thisClock = line2
@@ -172,7 +179,7 @@ def test1():
             if(thisClock == 1):
                 clockStatus1.write(0)
                 clockStatus1.close()'''
-        return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker, thisMacro, thisTest, thisMatch)
+        return jsonify(thisStatus, thisRed, thisBlue, thisClock, thisType, thisTicker, thisMacro, thisTest, thisMatch, thisMask)
 @app.route('/test2', methods=["GET"])
 def test2():
         cinema1 = open("redScore.txt")
@@ -257,9 +264,9 @@ def get_javascript_data_blue(ready, datum, final, gp):
         blueFinal.write(ready+final)
         blueFinal.close()
     return jsonify(result=datum)
-@app.route('/runmacro/<toh>/<test>/<resync>')
-def update_macros(toh, test, resync):
-    macro = toh + test + resync
+@app.route('/runmacro/<toh>/<test>/<resync>/<mask>')
+def update_macros(toh, test, resync, mask):
+    macro = toh + test + resync + mask
     with open("macroStatus.txt", "w") as macroStatus:
         macroStatus.write(macro)
         macroStatus.close()
@@ -267,5 +274,13 @@ def update_macros(toh, test, resync):
 @app.route("/finalScores/<blueteam>/<redteam>/<bluepts>/<redpts>")
 def returnResults(blueteam, redteam, bluepts, redpts):
     return render_template("finalScores.html", blueTeam = blueteam, redTeam = redteam, blueScore = bluepts, redScore = redpts)
+@app.route("/csvResults")
+def csvResult():
+    redData = []
+    red1 = open("redData.csv")
+    for line in red1:
+        redData = line
+    red1.close()
+    return render_template("csvResults.html", redCsv = redData)
 if __name__=="__main__":
     Flask.run(app, debug=True, host='0.0.0.0', threaded=True, port="8000")

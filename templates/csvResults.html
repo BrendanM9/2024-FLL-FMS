@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Match Results</title>
+    </head>
+    <body>
+        <div>
+
+            <div>
+                <input type="file" name="file" id="file" accept=".csv"  value="{{ redCsv }}"> <br><br>
+                <input type="button" id="btnsubmit" value="Submit" onclick="readCSVFile();">
+            </div>
+        
+            <br><br>
+            <!-- List CSV file data -->
+            <table id="tblcsvdata" border="1" style="border-collapse: collapse;">
+                 <thead>
+                      <tr>
+                          <th>Match</th>
+                          <th>Team Number</th>
+                          <th>Equipment Inspection</th>
+                          <th>Coral Nursery Tree</th>
+                          <th>Coral Nursery Tree Bonus</th>
+                          <th>Coral Nursery Buds</th>
+                          <th>Shark & Cave</th>
+                          <th>Shark Touching Mat</th>
+                          <th>Coral Reef Flipped Up</th>
+                          <th>Coral Reef Touching Mat</th>
+                          <th>Coral Reef Outside Home</th>
+                          <th>Coral Reef Upright</th>
+                          <th>Scuba Diver & Coral Nursery</th>
+                          <th>Scuba Diver & Coral Reef</th>
+                          <th>Angler Fish & Shipwreck</th>
+                          <th>Shipwreck Mast</th>
+                          <th>Kraken's Treasure</th>
+                          <th>Artificial Habitat</th>
+                          <th>Unexpected Encounter Released</th>
+                          <th>Unexpected Encounter In Cold Seep</th>
+                          <th>Submersible Yellow Flag</th>
+                          <th>Submersible Closer to Opposing Field</th>
+                          <th>One Whale Revealed</th>
+                          <th>Both Whales Revealed</th>
+                          <th>Feed the Whale</th>
+                          <th>Shipping Lanes</th>
+                          <th>Water Sample Outside Sample Area</th>
+                          <th>Seabed Sample Outside Sample Area</th>
+                          <th>Plankton Sample Outside Kelp Forest</th>
+                          <th>Piece of Trident Not Touching Shipwreck</th>
+                          <th>Sample Collection Bonus</th>
+                          <th>Research Vessel Cargo Area</th>
+                          <th>Port Latch in Research Vessel</th>
+                          <th>Precision Tokens</th>
+                          <th>Gracious Professionalism</th>
+                          <th>Total</th>
+                      </tr>
+                 </thead>
+                 <tbody>
+        
+                 </tbody>
+        
+            </table>
+        </div>
+    </body>
+    <script>
+        function readCSVFile(){
+     var files = document.querySelector('#file').files;
+
+     if(files.length > 0 ){
+
+          // Selected file
+          var file = files[0];
+
+          // FileReader Object
+          var reader = new FileReader();
+
+          // Read file as string 
+          reader.readAsText(file);
+
+          // Load event
+          reader.onload = function(event) {
+
+               // Read file data
+               var csvdata = event.target.result;
+
+               // Split by line break to gets rows Array
+               var rowData = csvdata.split('\n');
+
+               // <table > <tbody>
+               var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
+               tbodyEl.innerHTML = "";
+
+               // Loop on the row Array (change row=0 if you also want to read 1st row)
+               for (var row = 1; row < rowData.length; row++) {
+
+                     // Insert a row at the end of table
+                     var newRow = tbodyEl.insertRow();
+
+                     // Split by comma (,) to get column Array
+                     rowColData = rowData[row].split(',');
+
+                     // Loop on the row column Array
+                     for (var col = 0; col < rowColData.length; col++) {
+
+                          // Insert a cell at the end of the row
+                          var newCell = newRow.insertCell();
+                          newCell.innerHTML = rowColData[col];
+
+                     }
+
+               }
+          };
+
+     }else{
+          alert("Please select a file.");
+     }
+
+}
+    </script>
+</html>
